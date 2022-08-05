@@ -9,5 +9,6 @@ router.route("/post").post(post.createPost);
 
 // user
 router.route("/user").post(user.register);
+router.route("/login").post(user.login);
 
 module.exports = router;
