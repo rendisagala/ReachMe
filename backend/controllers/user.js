@@ -27,3 +27,39 @@ exports.register = [
     }
   },
 ];
+
+exports.login = [
+  async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(400).json({
+          success: false,
+          message: "Email already exists",
+        });
+      }
+
+      const isMatch = await user.matchpassword(password);
+
+      if (!isMatch) {
+        return res.status(400).json({
+          success: false,
+          message: "Incorrect Password",
+        });
+      }
+
+      const token = await user.generateToken();
+
+      res.status(200).cookie("token", token).json({
+        success: true,
+        user,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  },
+];
