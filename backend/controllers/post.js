@@ -7,12 +7,11 @@ exports.createPost = [
       const newPostData = {
         caption: req.body.caption,
         image: {
-          public_id: req.body.public_id,
-          url: req.body.url,
+          public_id: "req.body.public_id",
+          url: "req.body.url",
         },
-        author: req.user_id,
+        author: req.user._id,
       };
-
       const post = await Post.create(newPostData);
       const user = await User.findById(req.user._id);
 
