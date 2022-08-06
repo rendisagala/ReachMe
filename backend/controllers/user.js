@@ -71,6 +71,28 @@ exports.login = [
   },
 ];
 
+exports.logout = [
+  async (req, res) => {
+    try {
+      const loggedInUser = await User.findById(req.user._id);
+      if (!loggedInUser)
+        return res
+          .status(405)
+          .json({ success: false, message: "There is no user logged in" });
+
+      res.clearCookie("token");
+      return res
+        .status(200)
+        .json({ success: true, message: "User Logged Out" });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  },
+];
+
 exports.followUser = [
   async (req, res) => {
     try {
