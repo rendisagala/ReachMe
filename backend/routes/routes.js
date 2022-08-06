@@ -7,7 +7,10 @@ const router = express.Router();
 
 // post
 router.route("/post/upload").post(auth.isAuth, post.createPost);
-router.route("/post/:id").get(auth.isAuth, post.likeAndUnlike);
+router
+  .route("/post/:id")
+  .get(auth.isAuth, post.likeAndUnlike)
+  .delete(auth.isAuth, post.deletePost);
 
 // user
 router.route("/register").post(user.register);
