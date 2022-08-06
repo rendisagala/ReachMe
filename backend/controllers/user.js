@@ -70,3 +70,30 @@ exports.login = [
     }
   },
 ];
+
+exports.followUser = [
+  async (req, res) => {
+    try {
+      const loggedInUser = await User.findById(req.user._id);
+      const userToFollow = await User.findById(req.params.id);
+
+      if (!userToFollow)
+        return res.status(404).json({
+          success: false,
+          message: "User Not Found",
+        });
+
+      loggedInUser.following.push(userToFollow._id);
+      userToFollow.follower.push(loggedInUser._id);
+
+      await loggedInUser.save();
+      await userToFollow.save();
+      return res.status(200).json({ success: true, message: "User Followed" });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  },
+];
