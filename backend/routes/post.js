@@ -6,9 +6,7 @@ const router = express.Router();
 
 // post
 router.route("/post/upload").post(auth.isAuth, post.createPost);
-router
-  .route("/post/:id")
-  .get(auth.isAuth, post.likeAndUnlike)
-  .delete(auth.isAuth, post.deletePost);
+router.route("/post/:id").delete(auth.isAuth, post.deletePost);
+router.route("/post/like/:id").put(auth.isAuth, post.likeAndUnlike);
 
 module.exports = router;
