@@ -37,11 +37,11 @@ exports.login = [
       if (!user) {
         res.status(400).json({
           success: false,
-          message: "Email already exists",
+          message: `There is no user with email ${email}`,
         });
       }
 
-      const isMatch = await user.matchpassword(password);
+      const isMatch = await user.matchPassword(password);
 
       if (!isMatch) {
         res.status(400).json({
