@@ -18,12 +18,12 @@ exports.createPost = [
       user.posts.push(post._id);
       await user.save();
 
-      res.status(201).json({
+      return res.status(201).json({
         post: post,
         success: true,
       });
     } catch (error) {
-      res.status(500).json({ message: error.message, success: false });
+      return res.status(500).json({ message: error.message, success: false });
     }
   },
 ];
@@ -70,9 +70,9 @@ exports.deletePost = [
 
       await post.remove();
 
-      res.status(200).json({ success: true, message: "Post Deleted" });
+      return res.status(200).json({ success: true, message: "Post Deleted" });
     } catch (error) {
-      res.status(500).json({ success: false, message: error.message });
+      return res.status(500).json({ success: false, message: error.message });
     }
   },
 ];

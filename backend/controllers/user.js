@@ -6,7 +6,7 @@ exports.register = [
       const { name, email, password } = req.body;
       let user = await User.findOne({ email });
       if (user) {
-        res.status(500).json({
+        return res.status(500).json({
           message: "User already exist",
           success: false,
         });
@@ -18,9 +18,9 @@ exports.register = [
         password,
         img: { public_id: "sample_id", url: "sample_url" },
       });
-      res.status(201).json({ success: true, user });
+      return res.status(201).json({ success: true, user });
     } catch (error) {
-      res.status(500).json({
+      return res.status(500).json({
         message: error.message,
         success: false,
       });
@@ -35,16 +35,22 @@ exports.login = [
       const user = await User.findOne({ email }).select("+password");
 
       if (!user) {
-        res.status(400).json({
+        return res.status(400).json({
           success: false,
           message: `There is no user with email ${email}`,
         });
       }
 
+      const checkToken = req.cookies.token;
+      if (checkToken)
+        return res
+          .status(409)
+          .json({ success: false, message: "There is another user logged in" });
+
       const isMatch = await user.matchPassword(password);
 
       if (!isMatch) {
-        res.status(400).json({
+        return res.status(400).json({
           success: false,
           message: "Incorrect Password",
         });
@@ -57,13 +63,13 @@ exports.login = [
         httpOnly: true,
       };
 
-      res.status(201).cookie("token", token, options).json({
+      return res.status(201).cookie("token", token, options).json({
         success: true,
         user,
         token,
       });
     } catch (error) {
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         message: error.message,
       });
@@ -85,7 +91,7 @@ exports.logout = [
         .status(200)
         .json({ success: true, message: "User Logged Out" });
     } catch (error) {
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         message: error.message,
       });
@@ -104,15 +110,50 @@ exports.followUser = [
           success: false,
           message: "User Not Found",
         });
-
       loggedInUser.following.push(userToFollow._id);
-      userToFollow.follower.push(loggedInUser._id);
+      userToFollow.followers.push(loggedInUser._id);
 
       await loggedInUser.save();
       await userToFollow.save();
       return res.status(200).json({ success: true, message: "User Followed" });
     } catch (error) {
-      res.status(500).json({
+      return res.status(500).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  },
+];
+
+exports.unfollowUser = [
+  async (req, res) => {
+    const loggedInUser = await User.findById(req.user._id);
+    const userToUnfollow = await User.findById(req.params.id);
+
+    if (!userToUnfollow)
+      return res.status(404).json({
+        success: false,
+        message: "User Not Found",
+      });
+
+    if (
+      userToUnfollow.followers.includes(loggedInUser._id) &&
+      loggedInUser.following.includes(userToUnfollow._id)
+    ) {
+      const indexFollowers = userToUnfollow.followers.indexOf(loggedInUser._id);
+      userToUnfollow.followers.splice(indexFollowers, 1);
+      const indexFollowing = loggedInUser.following.indexOf(userToUnfollow._id);
+      loggedInUser.following.splice(indexFollowing, 1);
+      loggedInUser.save();
+      userToUnfollow.save();
+      return res
+        .status(200)
+        .json({ success: true, message: "User Unfollowed" });
+    }
+
+    try {
+    } catch (error) {
+      return res.status(500).json({
         success: false,
         message: error.message,
       });
