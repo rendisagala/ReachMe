@@ -7,9 +7,10 @@ const postSchema = new mongoose.Schema(
       public_id: String,
       url: String,
     },
-    Author: {
+    author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      required: true,
     },
     CreatedAt: {
       type: Date,
