@@ -12,8 +12,4 @@ router
   .get(auth.isAuth, post.likeAndUnlike)
   .delete(auth.isAuth, post.deletePost);
 
-// user
-router.route("/register").post(user.register);
-router.route("/login").post(user.login);
-
 module.exports = router;

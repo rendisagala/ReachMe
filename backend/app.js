@@ -4,7 +4,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const routes = require("./routes/routes");
+const user = require("./routes/user");
+const post = require("./routes/post");
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(cookieParser());
 
 app.use(cors());
 
-app.use("/api/v1", routes);
+app.use("/api/v1", post);
+app.use("/api/v1", user);
 
 module.exports = app;
