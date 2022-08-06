@@ -57,6 +57,8 @@ exports.likeAndUnlike = [
 exports.deletePost = [
   async (req, res) => {
     try {
+      const loggedInUser = await User.findById(req.user._id);
+
       const post = await Post.findById(req.params.id);
       if (!post)
         return res
@@ -68,6 +70,9 @@ exports.deletePost = [
           .status(401)
           .json({ success: false, message: "Unauthorized" });
 
+      const index = loggedInUser.posts.indexOf(post._id);
+      loggedInUser.posts.splice(index, 1);
+      await loggedInUser.save();
       await post.remove();
 
       return res.status(200).json({ success: true, message: "Post Deleted" });
