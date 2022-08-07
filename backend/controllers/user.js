@@ -102,7 +102,7 @@ exports.logout = [
   },
 ];
 
-exports.followUser = [
+exports.followAndUnfollow = [
   async (req, res) => {
     try {
       const loggedInUser = await User.findById(req.user._id);
@@ -113,12 +113,26 @@ exports.followUser = [
           success: false,
           message: "User Not Found",
         });
-      loggedInUser.following.push(userToFollow._id);
-      userToFollow.followers.push(loggedInUser._id);
 
-      await loggedInUser.save();
-      await userToFollow.save();
-      return res.status(200).json({ success: true, message: "User Followed" });
+      if (loggedInUser.following.includes(userToFollow._id)) {
+        const indexFollowing = loggedInUser.following.indexOf(userToFollow._id);
+        loggedInUser.following.splice(indexFollowing, 1);
+        const indexFollowers = userToFollow.followers.indexOf(loggedInUser._id);
+        userToFollow.followers.splice(indexFollowers, 1);
+        await loggedInUser.save();
+        await userToFollow.save();
+        return res
+          .status(200)
+          .json({ success: true, message: "User unfollowed" });
+      } else {
+        loggedInUser.following.push(userToFollow._id);
+        userToFollow.followers.push(loggedInUser._id);
+        await loggedInUser.save();
+        await userToFollow.save();
+        return res
+          .status(200)
+          .json({ success: true, message: "User Followed" });
+      }
     } catch (error) {
       return res.status(500).json({
         success: false,
@@ -204,42 +218,6 @@ exports.deleteProfile = [
         .json({ success: true, message: "Profile Deleted" });
     } catch (error) {
       return res.status(500).json({ success: false, message: error.message });
-    }
-  },
-];
-
-exports.unfollowUser = [
-  async (req, res) => {
-    const loggedInUser = await User.findById(req.user._id);
-    const userToUnfollow = await User.findById(req.params.id);
-
-    if (!userToUnfollow)
-      return res.status(404).json({
-        success: false,
-        message: "User Not Found",
-      });
-
-    if (
-      userToUnfollow.followers.includes(loggedInUser._id) &&
-      loggedInUser.following.includes(userToUnfollow._id)
-    ) {
-      const indexFollowers = userToUnfollow.followers.indexOf(loggedInUser._id);
-      userToUnfollow.followers.splice(indexFollowers, 1);
-      const indexFollowing = loggedInUser.following.indexOf(userToUnfollow._id);
-      loggedInUser.following.splice(indexFollowing, 1);
-      loggedInUser.save();
-      userToUnfollow.save();
-      return res
-        .status(200)
-        .json({ success: true, message: "User Unfollowed" });
-    }
-
-    try {
-    } catch (error) {
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
     }
   },
 ];
