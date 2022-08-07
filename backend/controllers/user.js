@@ -153,7 +153,7 @@ exports.updatePassword = [
       await user.save();
       return res
         .status(200)
-        .json({ success: true, message: "Password Changed" });
+        .json({ success: true, message: "Password Updated" });
     } catch (error) {
       return res.status(500).json({
         success: false,
@@ -167,6 +167,14 @@ exports.updateProfile = [
   async (req, res) => {
     try {
       const user = await User.findById(req.user._id);
+      const { name, img, email } = req.body;
+      if (name) user.name = name;
+      if (img) user.img = img;
+      if (email) user.email = email;
+      await user.save();
+      return res
+        .status(200)
+        .json({ success: true, message: "Profile Updated" });
     } catch (error) {
       return res.status(500).json({
         success: false,

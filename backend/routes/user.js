@@ -11,5 +11,6 @@ router.route("/user/logout").delete(auth.isAuth, user.logout);
 router.route("/user/follow/:id").put(auth.isAuth, user.followUser);
 router.route("/user/unfollow/:id").delete(auth.isAuth, user.unfollowUser);
 router.route("/update/password").put(auth.isAuth, user.updatePassword);
+router.route("/update/profile").put(auth.isAuth, user.updateProfile);
 
 module.exports = router;
