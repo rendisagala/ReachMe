@@ -93,3 +93,30 @@ exports.getPostOfFollowing = [
     }
   },
 ];
+
+exports.updateCaption = [
+  async (req, res) => {
+    try {
+      const post = await Post.findById(req.params.id);
+      const { caption } = req.body;
+
+      if (!caption)
+        return res
+          .status(400)
+          .json({ success: false, message: "Please Provide Caption" });
+
+      if (post.author.toString() !== req.user._id.toString())
+        return res
+          .status(401)
+          .json({ success: false, message: "Unauthorized" });
+
+      post.caption = caption;
+      await post.save();
+      return res
+        .status(200)
+        .json({ success: true, message: "Caption Updated" });
+    } catch (error) {
+      return res.status(500).json({ success: false, message: error.message });
+    }
+  },
+];

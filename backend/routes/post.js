@@ -6,7 +6,10 @@ const router = express.Router();
 
 // post
 router.route("/post/upload").post(auth.isAuth, post.createPost);
-router.route("/post/:id").delete(auth.isAuth, post.deletePost);
+router
+  .route("/post/:id")
+  .put(auth.isAuth, post.updateCaption)
+  .delete(auth.isAuth, post.deletePost);
 router.route("/post/like/:id").put(auth.isAuth, post.likeAndUnlike);
 router.route("/posts").get(auth.isAuth, post.getPostOfFollowing);
 
