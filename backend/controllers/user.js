@@ -125,6 +125,57 @@ exports.followUser = [
   },
 ];
 
+exports.updatePassword = [
+  async (req, res) => {
+    try {
+      const user = await User.findById(req.user._id).select("+password");
+      const { oldPassword, newPassword, reType } = req.body;
+      const isMatch = await user.matchPassword(oldPassword);
+
+      if (!oldPassword || !newPassword)
+        return res.status(400).json({
+          success: false,
+          message: "Please Provide Old Password and New Password",
+        });
+
+      if (!isMatch)
+        return res.status(400).json({
+          success: false,
+          message: "Incorrect Old Password",
+        });
+
+      if (!reType || reType !== newPassword)
+        return res
+          .status(400)
+          .json({ success: false, message: "Re-type New Password" });
+
+      user.password = newPassword;
+      await user.save();
+      return res
+        .status(200)
+        .json({ success: true, message: "Password Changed" });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  },
+];
+
+exports.updateProfile = [
+  async (req, res) => {
+    try {
+      const user = await User.findById(req.user._id);
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  },
+];
+
 exports.unfollowUser = [
   async (req, res) => {
     const loggedInUser = await User.findById(req.user._id);
