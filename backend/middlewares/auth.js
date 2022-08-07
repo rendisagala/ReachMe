@@ -9,7 +9,7 @@ exports.isAuth = [
       const { token } = req.cookies;
       if (!token)
         return res.status(401).json({
-          message: "No Token",
+          message: "Please login first",
           success: false,
         });
       const decoded = await jwt.verify(token, process.env.JWT);
