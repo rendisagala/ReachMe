@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Post = require("../models/Post");
 
 exports.register = [
   async (req, res) => {
@@ -63,11 +64,13 @@ exports.login = [
         httpOnly: true,
       };
 
-      return res.status(201).cookie("token", token, options).json({
-        success: true,
-        user,
-        token,
-      });
+      return res
+        .status(201)
+        .cookie("token", token, options)
+        .json({
+          success: true,
+          message: `User logged in (${email})`,
+        });
     } catch (error) {
       return res.status(500).json({
         success: false,
@@ -180,6 +183,27 @@ exports.updateProfile = [
         success: false,
         message: error.message,
       });
+    }
+  },
+];
+
+exports.deleteProfile = [
+  async (req, res) => {
+    try {
+      const user = await User.findById(req.user._id);
+
+      const posts = user.posts;
+      for (let i = 0; i < posts.length; i++) {
+        const post = await Post.findById(posts[i]);
+        await post.remove;
+      }
+      await user.remove();
+      res.clearCookie("token");
+      return res
+        .status(200)
+        .json({ success: true, message: "Profile Deleted" });
+    } catch (error) {
+      return res.status(500).json({ success: false, message: error.message });
     }
   },
 ];
