@@ -102,7 +102,7 @@ exports.logout = [
   },
 ];
 
-exports.showProfile = [
+exports.profile = [
   async (req, res) => {
     try {
       const user = await User.findById(req.user._id);

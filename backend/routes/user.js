@@ -9,7 +9,7 @@ router.route("/register").post(user.register);
 router.route("/login").post(user.login);
 router.route("/logout").delete(auth.isAuth, user.logout);
 router.route("/delete").delete(auth.isAuth, user.deleteProfile);
-router.route("/profile").get(auth.isAuth, user.showProfile);
+router.route("/profile").get(auth.isAuth, user.profile);
 router.route("/follow/:id").put(auth.isAuth, user.followAndUnfollow);
 router.route("/update/password").put(auth.isAuth, user.updatePassword);
 router.route("/update/profile").put(auth.isAuth, user.updateProfile);
