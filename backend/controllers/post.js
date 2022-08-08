@@ -137,10 +137,10 @@ exports.addComment = [
           .json({ success: true, message: "Post Not Found" });
 
       todayComment = false;
-      post.comments.forEach((item) => {
+      post.comments.forEach((data) => {
         if (
-          item.user.toString() === req.user._id.toString() &&
-          item.date.toDateString() === new Date().toDateString()
+          data.user.toString() === req.user._id.toString() &&
+          data.date.toDateString() === new Date().toDateString()
         )
           todayComment = true;
       });
