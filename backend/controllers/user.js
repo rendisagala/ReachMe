@@ -105,16 +105,24 @@ exports.logout = [
   },
 ];
 
-exports.profile = [
+exports.user = [
   async (req, res) => {
     try {
       const user = await User.findById(req.user._id);
       return res.status(200).json({ success: true, user });
     } catch (error) {
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
+      return res.status(500).json({ success: false, message: error.message });
+    }
+  },
+];
+
+exports.allUser = [
+  async (req, res) => {
+    try {
+      const users = await User.find({});
+      res.status(200).json({ success: true, users });
+    } catch (error) {
+      return res.status(500).json({ success: false, message: error.message });
     }
   },
 ];
@@ -197,7 +205,7 @@ exports.updatePassword = [
   },
 ];
 
-exports.updateProfile = [
+exports.updateUser = [
   async (req, res) => {
     try {
       const user = await User.findById(req.user._id);
@@ -206,9 +214,7 @@ exports.updateProfile = [
       if (img) user.img = img;
       if (email) user.email = email;
       await user.save();
-      return res
-        .status(200)
-        .json({ success: true, message: "Profile Updated" });
+      return res.status(200).json({ success: true, message: "User Updated" });
     } catch (error) {
       return res.status(500).json({
         success: false,
@@ -218,21 +224,33 @@ exports.updateProfile = [
   },
 ];
 
-exports.deleteProfile = [
+exports.deleteUser = [
   async (req, res) => {
     try {
       const user = await User.findById(req.user._id);
-
       const posts = user.posts;
+      const followers = user.followers;
+      const followings = user.following;
       for (let i = 0; i < posts.length; i++) {
         const post = await Post.findById(posts[i]);
         await post.remove;
       }
+      for (let i = 0; i < followers.length; i++) {
+        const follower = await User.findById(followers[i]);
+        const index = follower.following.indexOf(user._id);
+        follower.following.splice(index, 1);
+        await follower.save();
+      }
+      for (let i = 0; i < followings.length; i++) {
+        const following = await User.findById(followings[i]);
+        const index = following.followers.indexOf(user._id);
+        following.followers.splice(index, 1);
+        await following.save();
+      }
+
       await user.remove();
       res.clearCookie("token");
-      return res
-        .status(200)
-        .json({ success: true, message: "Profile Deleted" });
+      return res.status(200).json({ success: true, message: "User Deleted" });
     } catch (error) {
       return res.status(500).json({ success: false, message: error.message });
     }
