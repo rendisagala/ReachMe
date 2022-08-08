@@ -31,6 +31,11 @@ const postSchema = new mongoose.Schema(
         },
       },
     ],
+    edited: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
   },
   {
     versionKey: false,

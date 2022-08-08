@@ -100,6 +100,11 @@ exports.updateCaption = [
       const post = await Post.findById(req.params.id);
       const { caption } = req.body;
 
+      if (!post)
+        return res
+          .status(404)
+          .json({ success: true, message: "Post Not Found" });
+
       if (!caption)
         return res
           .status(400)
@@ -111,6 +116,7 @@ exports.updateCaption = [
           .json({ success: false, message: "Unauthorized" });
 
       post.caption = caption;
+      post.edited = true;
       await post.save();
       return res
         .status(200)
