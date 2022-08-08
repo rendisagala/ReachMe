@@ -89,9 +89,12 @@ exports.logout = [
           .status(405)
           .json({ success: false, message: "There is no user logged in" });
 
-      res.clearCookie("token");
       return res
         .status(200)
+        .cookie("token", null, {
+          expires: new Date(Date.now()),
+          httpOnly: true,
+        })
         .json({ success: true, message: "User Logged Out" });
     } catch (error) {
       return res.status(500).json({
