@@ -1,6 +1,5 @@
 const User = require("../models/User");
 const Post = require("../models/Post");
-const { now } = require("mongoose");
 
 exports.register = [
   async (req, res) => {
@@ -271,43 +270,6 @@ exports.deleteUser = [
       await user.remove();
       res.clearCookie("token");
       return res.status(200).json({ success: true, message: "User Deleted" });
-    } catch (error) {
-      return res.status(500).json({ success: false, message: error.message });
-    }
-  },
-];
-
-exports.resetPassword = [
-  async (req, res) => {
-    try {
-      const user = await User.findById(req.params.id);
-      if (!user)
-        return res
-          .status(404)
-          .json({ success: false, message: "User Not Found" });
-
-      const resetPasswordToken = user.getResetPasswordToken();
-      await user.save();
-      const resetUrl = `${req.protocol}://${req.get(
-        "host"
-      )}/api/v1/password/reset/${resetPasswordToken}`;
-      const message = `Reset Your Password By Clicking This Link : ${resetUrl}`;
-      try {
-        await sendEmail({
-          email: user.email,
-          subject: "Reachme : RESET PASSWORD",
-          message: message,
-        });
-        return res.status(200).json({
-          success: true,
-          message: `Password Reset Link Has Been Sent To ${user.email} `,
-        });
-      } catch (error) {
-        user.resetPasswordToken = undefined;
-        user.resetPasswordExpire = undefined;
-        await user.save();
-        return res.status(500).json({ success: false, message: error.message });
-      }
     } catch (error) {
       return res.status(500).json({ success: false, message: error.message });
     }
