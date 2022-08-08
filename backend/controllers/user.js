@@ -5,7 +5,7 @@ const { now } = require("mongoose");
 exports.register = [
   async (req, res) => {
     try {
-      const { name, email, password } = req.body;
+      const { name, email, password, reType } = req.body;
       let user = await User.findOne({ email });
       if (user) {
         return res.status(500).json({
@@ -13,6 +13,10 @@ exports.register = [
           success: false,
         });
       }
+      if (!reType || reType !== password)
+        return res
+          .status(400)
+          .json({ success: false, message: "Re-type New Password" });
 
       user = await User.create({
         name,
