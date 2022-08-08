@@ -7,16 +7,16 @@ exports.register = [
     try {
       const { name, email, password, reType } = req.body;
       let user = await User.findOne({ email });
+      if (!reType || reType !== password)
+        return res
+          .status(400)
+          .json({ success: false, message: "Re-type New Password" });
       if (user) {
         return res.status(500).json({
           message: "User already exist",
           success: false,
         });
       }
-      if (!reType || reType !== password)
-        return res
-          .status(400)
-          .json({ success: false, message: "Re-type New Password" });
 
       user = await User.create({
         name,
