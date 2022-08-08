@@ -13,7 +13,7 @@ const postSchema = new mongoose.Schema(
     },
     createdAt: {
       type: Date,
-      default: Date.now,
+      default: new Date(),
     },
     likes: [
       {
@@ -28,6 +28,10 @@ const postSchema = new mongoose.Schema(
         comment: {
           type: String,
           required: true,
+        },
+        date: {
+          type: Date,
+          default: new Date(),
         },
       },
     ],

@@ -126,3 +126,43 @@ exports.updateCaption = [
     }
   },
 ];
+
+exports.addComment = [
+  async (req, res) => {
+    try {
+      const post = await Post.findById(req.params.id);
+      if (!post)
+        return res
+          .status(404)
+          .json({ success: true, message: "Post Not Found" });
+
+      todayComment = false;
+      post.comments.forEach((item) => {
+        if (
+          item.user.toString() === req.user._id.toString() &&
+          item.date.toDateString() === new Date().toDateString()
+        )
+          todayComment = true;
+      });
+      if (todayComment)
+        return res.status(400).json({
+          success: false,
+          message: "You Can Only Send 1 Comment For Each Post Once A Day",
+        });
+
+      post.comments.push({
+        user: req.user._id,
+        comment: req.body.comment,
+        date: new Date(),
+      });
+      await post.save();
+
+      return res.status(200).json({
+        success: true,
+        message: `Comment Added (${req.body.comment})`,
+      });
+    } catch (error) {
+      return res.status(500).json({ success: false, message: error.message });
+    }
+  },
+];

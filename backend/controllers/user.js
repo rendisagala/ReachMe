@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Post = require("../models/Post");
+const { now } = require("mongoose");
 
 exports.register = [
   async (req, res) => {
