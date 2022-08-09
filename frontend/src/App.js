@@ -1,11 +1,16 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import "./App.css";
+import NavigationBar from "./components/NavigationBar/NavigationBar";
 import Login from "./pages/Login";
 
 function App() {
   return (
     <>
-      <Login />
+      <Router>
+        <div>
+          <NavigationBar />
+        </div>
+      </Router>
     </>
   );
 }
