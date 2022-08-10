@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import "./SignIn.css";
+import "./Login.css";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../Actions/User";
 
-export default function SignIn() {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const login = async () => {
-      setLoading(true);
-      await axios
-        .post("https://localhost:5000/api/v1/login", {
-          email: email,
-          password: password,
-        })
-        .then((res) => {});
-    };
-  });
+  const dispatch = useDispatch();
+
+  const loginController = (e) => {
+    e.preventDefault();
+    dispatch(loginUser(email, password));
+  };
   return (
     <>
       <div className="container-fluid ps-md-0">
@@ -30,20 +27,26 @@ export default function SignIn() {
                   <div className="col-md-9 col-lg-8 mx-auto">
                     <h3 className="login-heading mb-4">Welcome back!</h3>
 
-                    <form>
+                    <form onSubmit={loginController}>
                       <div className="form-floating mb-3">
                         <input
+                          value={email}
                           type="email"
                           className="form-control"
                           id="floatingInput"
+                          required
+                          onChange={(e) => setEmail(e.target.value)}
                         />
                         <label>Email address</label>
                       </div>
                       <div className="form-floating mb-3">
                         <input
+                          value={password}
                           type="password"
                           className="form-control"
                           id="floatingPassword"
+                          required
+                          onChange={(e) => setPassword(e.target.value)}
                         />
                         <label>Password</label>
                       </div>
@@ -70,10 +73,12 @@ export default function SignIn() {
                         >
                           Sign in
                         </button>
+
                         <div className="text-center">
-                          <a className="small" href="#">
-                            Forgot password?
-                          </a>
+                          <div className="small" href="#">
+                            Doesn't have an account?{" "}
+                            <Link to="/register"> Sign Up </Link>
+                          </div>
                         </div>
                       </div>
                     </form>

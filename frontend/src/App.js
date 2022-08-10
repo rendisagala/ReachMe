@@ -1,16 +1,20 @@
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
+import Feed from "./components/Feed/Feed";
 import NavigationBar from "./components/NavigationBar/NavigationBar";
-import Login from "./pages/Login";
+import SignIn from "./pages/SignIn";
 
 function App() {
   return (
     <>
-      <Router>
+      <BrowserRouter>
         <div>
-          <NavigationBar />
+          {/* <NavigationBar /> */}
+          <Routes>
+            <Route path="/" element={<SignIn />} />
+          </Routes>
         </div>
-      </Router>
+      </BrowserRouter>
     </>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Feed from "../Feed/Feed";
 import "./NavigationBar.css";
 
 export default function NavigationBar() {
@@ -24,7 +25,7 @@ export default function NavigationBar() {
         </div>
         <div className="navigation-icons">
           <Link to="/explore" onClick={() => setTab("/explore")}>
-            {tab === "/explore" ? (
+            {tab === "/explore" || tab === "/" ? (
               <div className="navigation-link">
                 <i
                   className="fa fa-paper-plane"
@@ -84,6 +85,7 @@ export default function NavigationBar() {
           </Link>
         </div>
       </div>
+      <Feed />
     </>
   );
 }

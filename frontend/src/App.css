@@ -1,6 +1,6 @@
 body {
-  margin: 20px !important;
-  padding: 20px !important;
+  margin: 20px;
+  padding: 20px;
   box-sizing: border-box;
   background-color: rgba(240, 248, 255, 0.829);
 }

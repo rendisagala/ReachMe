@@ -119,11 +119,3 @@ body {
   font-weight: 500;
   display: none;
 }
-.circle {
-  border: 1px solid red;
-  background-color: #ffffff;
-  height: auto;
-  -moz-border-radius: 75px;
-  -webkit-border-radius: 75px;
-  width: auto;
-}
