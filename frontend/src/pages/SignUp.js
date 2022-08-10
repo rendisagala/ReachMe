@@ -1,10 +1,10 @@
 import React from "react";
-import Login from "../components/Login/Login";
+import Register from "../components/Register.js/Register";
 
-export default function SignIn() {
+export default function SignUp() {
   return (
     <>
-      <Login />
+      <Register />
     </>
   );
 }
