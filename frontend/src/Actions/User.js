@@ -8,6 +8,7 @@ export const loginUser = (email, password) => {
       const data = await axios.post(
         `${Utils.proxy}/login`,
         { email, password },
+        { withCredentials: true },
         { headers: { "Content-Type": "application/json" } }
       );
       dispatch({ type: "LoginSuccess", payload: data.user });
