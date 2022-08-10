@@ -74,6 +74,7 @@ exports.login = [
         .json({
           success: true,
           message: `User logged in (${email})`,
+          user,
         });
     } catch (error) {
       return res.status(500).json({
