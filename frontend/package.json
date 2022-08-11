@@ -10,7 +10,6 @@
     "axios": "^0.27.2",
     "bootstrap": "^5.2.0",
     "font-awesome": "^4.7.0",
-    "jquery": "^3.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.2",

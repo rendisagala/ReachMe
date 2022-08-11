@@ -1,10 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import "./App.css";
-import Feed from "./components/Feed/Feed";
-import NavigationBar from "./components/NavigationBar/NavigationBar";
 import SignIn from "./pages/SignIn";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "./Actions/User";
 
 function App() {
@@ -12,15 +10,13 @@ function App() {
   useEffect(() => {
     dispatch(loadUser());
   });
+
+  const { isAuthenticated } = useSelector((state) => state.user);
+
   return (
     <>
       <BrowserRouter>
-        <div>
-          {/* <NavigationBar /> */}
-          <Routes>
-            <Route path="/" element={<SignIn />} />
-          </Routes>
-        </div>
+        <Router></Router>
       </BrowserRouter>
     </>
   );

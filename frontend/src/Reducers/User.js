@@ -1,5 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
-const initialState = {};
+const initialState = { isAuthenticated: false };
 
 export default function userReducer() {
   createReducer(initialState, {
@@ -9,10 +9,12 @@ export default function userReducer() {
     LoginSuccess: (state, action) => {
       state.loading = false;
       state.user = action.payload;
+      state.isAuthenticated = true;
     },
     LoginFailure: (state, action) => {
       state.loading = false;
       state.error = action.payload;
+      state.isAuthenticated = false;
     },
 
     RegisterRequest: (state) => {
@@ -21,10 +23,12 @@ export default function userReducer() {
     RegisterSuccess: (state, action) => {
       state.loading = false;
       state.user = action.payload;
+      state.isAuthenticated = true;
     },
     RegisterFailure: (state, action) => {
       state.loading = false;
       state.error = action.payload;
+      state.isAuthenticated = false;
     },
 
     LoadUserRequest: (state) => {
