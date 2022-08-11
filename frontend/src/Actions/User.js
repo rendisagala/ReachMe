@@ -5,7 +5,7 @@ export const loginUser = (email, password) => {
   return async (dispatch) => {
     try {
       dispatch({ type: "LoginRequest" });
-      const data = await axios.post(
+      const { data } = await axios.post(
         `${Utils.proxy}/login`,
         { email, password },
         { withCredentials: true },
@@ -13,7 +13,7 @@ export const loginUser = (email, password) => {
       );
       dispatch({ type: "LoginSuccess", payload: data.user });
     } catch (error) {
-      dispatch({ type: "LoginFailure", payload: error });
+      dispatch({ type: "LoginFailure", payload: error.message });
     }
   };
 };
@@ -24,10 +24,10 @@ export const loadUser = () => {
       dispatch({ type: "LoadUserRequest" });
 
       dispatch();
-      const data = await axios.get(`${Utils.proxy}/user`);
+      const { data } = await axios.get(`${Utils.proxy}/user`);
       dispatch({ type: "LoadUserSuccess", payload: data.user });
     } catch (error) {
-      dispatch({ type: "LoadUserFailure", payload: error });
+      dispatch({ type: "LoadUserFailure", payload: error.message });
     }
   };
 };

@@ -9,14 +9,16 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadUser());
-  });
+  }, []);
 
   const { isAuthenticated } = useSelector((state) => state.user);
 
   return (
     <>
       <BrowserRouter>
-        <Router></Router>
+        <Routes>
+          <Route path="/" element={<SignIn />} />
+        </Routes>
       </BrowserRouter>
     </>
   );
