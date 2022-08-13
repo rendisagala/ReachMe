@@ -4,7 +4,7 @@ const Post = require("../models/Post");
 exports.register = [
   async (req, res) => {
     try {
-      const { name, email, password, reType } = req.body;
+      const { name, email, password, img, reType } = req.body;
       let user = await User.findOne({ email });
       if (!reType || reType !== password)
         return res
@@ -21,7 +21,7 @@ exports.register = [
         name,
         email,
         password,
-        img: { public_id: "sample_id", url: "sample_url" },
+        img,
       });
       return res.status(201).json({ success: true, user });
     } catch (error) {
