@@ -41,3 +41,15 @@ export const loadUser = () => async (dispatch) => {
     dispatch({ type: "LoadUserFailure", payload: error.message });
   }
 };
+
+export const getAllUser = () => async (dispatch) => {
+  try {
+    dispatch({ type: "allUserRequest" });
+    const data = await axios.get(`${Utils.proxy}/users`, {
+      withCredentials: true,
+    });
+    dispatch({ type: "allUserSuccess", payload: data.data.users });
+  } catch (error) {
+    dispatch({ type: "allUserFailure", payload: error.message });
+  }
+};
