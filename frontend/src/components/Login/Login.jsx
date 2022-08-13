@@ -25,9 +25,9 @@ export default function Login() {
               <div className="container">
                 <div className="row">
                   <div className="col-md-9 col-lg-8 mx-auto">
-                    <div class="logo text-lg-center">
+                    <div className="logo text-lg-center">
                       <a href="/">
-                        <div class="no-underline">Reachme</div>
+                        <div className="no-underline">Reachme</div>
                       </a>
                     </div>
                     <form onSubmit={loginController}>

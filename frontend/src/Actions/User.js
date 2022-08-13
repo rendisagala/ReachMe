@@ -22,8 +22,7 @@ export const registerUser =
       const data = await axios.post(
         `${Utils.proxy}/register`,
         { name, email, password, reType },
-        { withCredentials: true },
-        { headers: { "Content-Type": "application/json" } }
+        { withCredentials: true }
       );
       dispatch({ type: "RegisterSuccess", payload: data.data.user });
     } catch (error) {

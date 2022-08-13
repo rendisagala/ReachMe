@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PeopleList from "../PeopleList/PeopleList";
 import "./Feed.css";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllPosts } from "../../Actions/Post";
 
 function Feed() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllPosts());
+  }, [dispatch]);
+
+  const { posts: post } = useSelector((state) => state.allPost);
+  console.log(post);
   return (
     <>
       <div className="row d-flex">
