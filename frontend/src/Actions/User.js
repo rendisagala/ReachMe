@@ -10,19 +10,34 @@ export const loginUser = (email, password) => async (dispatch) => {
       { withCredentials: true },
       { headers: { "Content-Type": "application/json" } }
     );
-    dispatch({ type: "LoginSuccess", payload: data.user });
+    dispatch({ type: "LoginSuccess", payload: data.data.user });
   } catch (error) {
     dispatch({ type: "LoginFailure", payload: error.message });
   }
 };
+export const registerUser =
+  (name, email, password, reType) => async (dispatch) => {
+    try {
+      dispatch({ type: "LoginRequest" });
+      const data = await axios.post(
+        `${Utils.proxy}/register`,
+        { name, email, password, reType },
+        { withCredentials: true },
+        { headers: { "Content-Type": "application/json" } }
+      );
+      dispatch({ type: "LoginSuccess", payload: data.data.user });
+    } catch (error) {
+      dispatch({ type: "LoginFailure", payload: error.message });
+    }
+  };
 
 export const loadUser = () => async (dispatch) => {
   try {
     dispatch({ type: "LoadUserRequest" });
-    const data = await axios
-      .get(`${Utils.proxy}/user`, { withCredentials: true })
-      .catch((e) => console.log(e));
-    dispatch({ type: "LoadUserSuccess", payload: data.user });
+    const data = await axios.get(`${Utils.proxy}/user`, {
+      withCredentials: true,
+    });
+    dispatch({ type: "LoadUserSuccess", payload: data.data.user });
   } catch (error) {
     dispatch({ type: "LoadUserFailure", payload: error.message });
   }

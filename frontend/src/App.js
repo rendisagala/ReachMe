@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "./Actions/User";
 import NavigationBar from "./components/NavigationBar/NavigationBar";
 import Explore from "./pages/Explore";
+import SignUp from "./pages/SignUp";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,6 +24,10 @@ function App() {
           <Route
             path="/"
             element={isAuthenticated ? <Explore /> : <SignIn />}
+          />
+          <Route
+            path="/register"
+            element={isAuthenticated ? <Explore /> : <SignUp />}
           />
           <Route
             path="/explore"

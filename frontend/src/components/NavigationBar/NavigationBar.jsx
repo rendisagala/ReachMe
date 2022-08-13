@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Feed from "../Feed/Feed";
 import "./NavigationBar.css";
 
 export default function NavigationBar() {
@@ -85,7 +84,6 @@ export default function NavigationBar() {
           </Link>
         </div>
       </div>
-      <Feed />
     </>
   );
 }

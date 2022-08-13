@@ -72,6 +72,7 @@ export default function Login() {
                         <button
                           className="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2"
                           type="submit"
+                          disabled={!email || !password ? true : false}
                         >
                           Sign in
                         </button>
