@@ -35,6 +35,7 @@ export default function Login() {
                           className="form-control"
                           id="floatingInput"
                           required
+                          autoComplete="email"
                           onChange={(e) => setEmail(e.target.value)}
                         />
                         <label>Email address</label>
@@ -47,6 +48,7 @@ export default function Login() {
                           id="floatingPassword"
                           required
                           onChange={(e) => setPassword(e.target.value)}
+                          autoComplete="current-password"
                         />
                         <label>Password</label>
                       </div>
@@ -55,8 +57,8 @@ export default function Login() {
                         <input
                           className="form-check-input"
                           type="checkbox"
-                          value=""
                           id="rememberPasswordCheck"
+                          value=""
                         />
                         <label
                           className="form-check-label"

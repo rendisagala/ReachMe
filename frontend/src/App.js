@@ -4,20 +4,30 @@ import "./App.css";
 import SignIn from "./pages/SignIn";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "./Actions/User";
+import NavigationBar from "./components/NavigationBar/NavigationBar";
+import Explore from "./pages/Explore";
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadUser());
-  }, []);
+  }, [dispatch]);
 
   const { isAuthenticated } = useSelector((state) => state.user);
 
   return (
     <>
       <BrowserRouter>
+        {isAuthenticated && <NavigationBar />}
         <Routes>
-          <Route path="/" element={<SignIn />} />
+          <Route
+            path="/"
+            element={isAuthenticated ? <Explore /> : <SignIn />}
+          />
+          <Route
+            path="/explore"
+            element={isAuthenticated ? <Explore /> : <SignIn />}
+          />
         </Routes>
       </BrowserRouter>
     </>
