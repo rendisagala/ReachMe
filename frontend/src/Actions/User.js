@@ -18,16 +18,16 @@ export const loginUser = (email, password) => async (dispatch) => {
 export const registerUser =
   (name, email, password, reType) => async (dispatch) => {
     try {
-      dispatch({ type: "LoginRequest" });
+      dispatch({ type: "RegisterRequest" });
       const data = await axios.post(
         `${Utils.proxy}/register`,
         { name, email, password, reType },
         { withCredentials: true },
         { headers: { "Content-Type": "application/json" } }
       );
-      dispatch({ type: "LoginSuccess", payload: data.data.user });
+      dispatch({ type: "RegisterSuccess", payload: data.data.user });
     } catch (error) {
-      dispatch({ type: "LoginFailure", payload: error.message });
+      dispatch({ type: "RegisterFailure", payload: error.message });
     }
   };
 

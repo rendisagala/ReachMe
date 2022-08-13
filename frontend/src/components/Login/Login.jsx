@@ -25,8 +25,11 @@ export default function Login() {
               <div className="container">
                 <div className="row">
                   <div className="col-md-9 col-lg-8 mx-auto">
-                    <h3 className="login-heading mb-4">Welcome back!</h3>
-
+                    <div class="logo text-lg-center">
+                      <a href="/">
+                        <div class="no-underline">Reachme</div>
+                      </a>
+                    </div>
                     <form onSubmit={loginController}>
                       <div className="form-floating mb-3">
                         <input
