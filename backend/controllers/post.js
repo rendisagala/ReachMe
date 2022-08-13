@@ -166,3 +166,14 @@ exports.addComment = [
     }
   },
 ];
+
+exports.getAllPost = [
+  async (req, res) => {
+    try {
+      const posts = await Post.find();
+      res.status(200).json({ success: true, posts });
+    } catch (error) {
+      return res.status(500).json({ success: false, message: error.message });
+    }
+  },
+];
