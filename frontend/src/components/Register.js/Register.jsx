@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Register.css";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../../Actions/User";
+import { registerUser } from "../../Actions/User";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -23,7 +23,7 @@ export default function Register() {
 
   const loginController = (e) => {
     e.preventDefault();
-    dispatch(loginUser(name, email, password, reType));
+    dispatch(registerUser(name, email, password, reType));
   };
   return (
     <>
