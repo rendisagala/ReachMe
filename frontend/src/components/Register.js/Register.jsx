@@ -8,8 +8,10 @@ export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [img, setImg] = useState("");
   const [reType, setReType] = useState("");
   const [alert, setAlert] = useState("");
+  const [imgForm, setImgForm] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch();
@@ -23,10 +25,25 @@ export default function Register() {
 
   const registerController = (e) => {
     e.preventDefault();
-    dispatch(registerUser(name, email, password, reType));
+    dispatch(registerUser(name, email, password, reType, img));
+  };
+  const { isRegistered } = useSelector((state) => state.user);
+
+  const toggleImgForm = () => (imgForm ? setImgForm(false) : setImgForm(true));
+
+  const onImageChange = (e) => {
+    const file = e.target.files[0];
+
+    const Reader = new FileReader();
+    Reader.readAsDataURL(file);
+
+    Reader.onload = () => {
+      if (Reader.readyState === 2) {
+        setImg(Reader.result);
+      }
+    };
   };
 
-  const { isRegistered } = useSelector((state) => state.user);
   return (
     <>
       <div className="container-fluid ps-md-0">
@@ -37,16 +54,66 @@ export default function Register() {
               <div className="container">
                 <div className="row">
                   <div className="col-md-9 col-lg-8 mx-auto">
-                    <div class="logo text-lg-center">
-                      <a href="/">
-                        <div class="no-underline">Reachme</div>
-                      </a>
+                    <div className="logo text-lg-center">
+                      <div className="no-underline">Reachme</div>
                     </div>
                     <h3 className="login-heading mb-4">
                       Let's Set Up Your Account
                     </h3>
+                    <button
+                      className="btn btn-outline-dark"
+                      onClick={() => toggleImgForm()}
+                    >
+                      Add Image
+                    </button>
 
                     <form onSubmit={registerController}>
+                      {imgForm ? (
+                        <div className="container py-4">
+                          <div className="row">
+                            {" "}
+                            <li className="list-inline-item">
+                              <button
+                                className="btn btn-danger btn-sm rounded-0"
+                                type="button"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="Delete"
+                                onClick={() => setImg("")}
+                              >
+                                <i className="fa fa-trash"></i>
+                              </button>
+                            </li>
+                            <div className="col-sm-4 mx-auto">
+                              {" "}
+                              <div className="border rounded-lg text-center ">
+                                <img
+                                  src={img}
+                                  className="img-fluid"
+                                  id="preview"
+                                />
+                              </div>
+                              <div className="input-group mb-3">
+                                <div className="custom-file">
+                                  <input
+                                    type="file"
+                                    className="custom-file-input"
+                                    id="inputGroupFile"
+                                    onChange={onImageChange}
+                                  />
+                                  <label
+                                    className="custom-file-label"
+                                    htmlFor="inputGroupFile"
+                                    aria-describedby="inputGroupFileAddon"
+                                  ></label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <>tes</>
+                      )}
                       <div className="form-floating mb-3">
                         <input
                           value={name}
@@ -73,7 +140,7 @@ export default function Register() {
                       </div>
                       {alert === "passwordCharacters" && (
                         <div className="alert alert-danger alert-dismissible fade show">
-                          <i class="fa fa-times-circle me-1"></i>
+                          <i className="fa fa-times-circle me-1"></i>
                           <strong>Error!</strong> Password must be at least 8
                           Characters
                         </div>
@@ -92,7 +159,7 @@ export default function Register() {
                       </div>
                       {alert === "confirmPassword" && (
                         <div className="alert alert-danger alert-dismissible fade show">
-                          <i class="fa fa-times-circle me-1"></i>
+                          <i className="fa fa-times-circle me-1"></i>
                           <strong>Error!</strong> Confirm Your Password
                         </div>
                       )}
@@ -108,6 +175,7 @@ export default function Register() {
                         />
                         <label>Confirm Your Password</label>
                       </div>
+
                       <div className="d-grid">
                         <button
                           className="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2"
@@ -115,6 +183,7 @@ export default function Register() {
                           disabled={
                             !reType ||
                             reType !== password ||
+                            !img ||
                             password.length < 8
                               ? true
                               : false
@@ -125,11 +194,11 @@ export default function Register() {
 
                         {isRegistered ? (
                           <div
-                            class="alert alert-success  text-center"
+                            className="alert alert-success  text-center"
                             role="alert"
                             data-mdb-color="success"
                           >
-                            <i class="fa fa-check-circle me-1"></i>
+                            <i className="fa fa-check-circle me-1"></i>
                             <strong> Success! </strong>Please go back to{" "}
                             <Link to="/">login page</Link> with your registered
                             account.

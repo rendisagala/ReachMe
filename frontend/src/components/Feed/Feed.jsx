@@ -11,7 +11,6 @@ function Feed() {
   }, [dispatch]);
 
   const { posts: post } = useSelector((state) => state.allPost);
-  console.log(post);
   return (
     <>
       <div className="row d-flex">

@@ -9,7 +9,7 @@ exports.register = [
       if (!reType || reType !== password)
         return res
           .status(400)
-          .json({ success: false, message: "Re-type New Password" });
+          .json({ success: false, message: "Re-type Password" });
       if (user) {
         return res.status(400).json({
           message: "User already exist",

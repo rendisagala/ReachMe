@@ -13,14 +13,14 @@ export default function PeopleList() {
   const { user } = useSelector((state) => state.user);
   return (
     <>
-      <nav id="sidebar" className="col-2 w-25">
+      <nav className="sidebar col-2 w-25">
         <div className="pt-5">
           <h5>Check Who is here</h5>{" "}
           {users?.map((data, index) => {
             if (data._id.toString() !== user._id.toString())
               return (
                 <div
-                  className="d-flex flex-row justify-content-between align-items-center p-2 border-bottom mb-2 row-cols-6"
+                  className="d-flex flex-row justify-content-between align-items-center p-2 border-bottom mb-2 row-cols-3"
                   key={index}
                 >
                   <div className="d-flex flex-row align-items-center feed-text px-2">
@@ -32,7 +32,7 @@ export default function PeopleList() {
                       </span>
                     </div>
                   </div>
-                  <div className="float-start px-2">
+                  <div className="float-start">
                     <button type="button" className="btn btn-outline-dark">
                       Follow
                     </button>
