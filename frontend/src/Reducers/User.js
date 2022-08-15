@@ -60,3 +60,16 @@ export const allUserReducer = createReducer(initialState, {
     state.error = action.payload;
   },
 });
+export const getUserReducer = createReducer(initialState, {
+  getUserRequest: (state) => {
+    state.loading = true;
+  },
+  getUserSuccess: (state, action) => {
+    state.loading = false;
+    state.user = action.payload;
+  },
+  getUserFailure: (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
+  },
+});

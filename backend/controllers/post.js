@@ -4,12 +4,23 @@ const User = require("../models/User");
 exports.createPost = [
   async (req, res) => {
     try {
+      let todayPost = false;
+      const postData = await Post.find();
+      postData.forEach((data) => {
+        if (
+          data.author.toString() === req.user._id.toString() &&
+          data.createdAt.toDateString() === new Date().toDateString()
+        )
+          todayPost = true;
+      });
+      if (todayPost)
+        return res.status(400).json({
+          success: false,
+          message: "You Can Only Send 1 Post For Each Day",
+        });
       const newPostData = {
         caption: req.body.caption,
-        image: {
-          public_id: "req.body.public_id",
-          url: "req.body.url",
-        },
+        img: req.body.img,
         author: req.user._id,
       };
       const post = await Post.create(newPostData);
@@ -19,8 +30,8 @@ exports.createPost = [
       await user.save();
 
       return res.status(201).json({
-        post: post,
         success: true,
+        post,
       });
     } catch (error) {
       return res.status(500).json({ message: error.message, success: false });
@@ -86,7 +97,9 @@ exports.getPostOfFollowing = [
   async (req, res) => {
     try {
       const user = await User.findById(req.user._id);
-      const posts = await Post.find({ author: { $in: user.following } });
+      const posts = await Post.find({
+        author: { $in: user.following },
+      }).populate("author likes comments.user");
       return res.status(200).json({ success: true, posts });
     } catch (error) {
       return res.status(500).json({ success: false, message: error.message });
@@ -170,7 +183,7 @@ exports.addComment = [
 exports.getAllPost = [
   async (req, res) => {
     try {
-      const posts = await Post.find();
+      const posts = await Post.find().populate("author likes comments.user");
       res.status(200).json({ success: true, posts });
     } catch (error) {
       return res.status(500).json({ success: false, message: error.message });

@@ -97,6 +97,12 @@ body {
   text-decoration: none;
   font-size: 22px;
 }
+.navigation-link img {
+  margin-left: 30px;
+  color: black;
+  text-decoration: none;
+  font-size: 22px;
+}
 
 .notification-bubble-wrapper {
   position: relative;

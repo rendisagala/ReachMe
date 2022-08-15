@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./NavigationBar.css";
+import { useDispatch, useSelector } from "react-redux";
+import { loadUser } from "../../Actions/User";
 
 export default function NavigationBar() {
   const [tab, setTab] = useState(window.location.pathname);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(loadUser());
+  }, [dispatch]);
+
+  const { user } = useSelector((state) => state.user);
+
   return (
     <>
       <div className="navigation">
@@ -64,18 +74,31 @@ export default function NavigationBar() {
             )}
           </Link>
           <Link to="/profile" onClick={() => setTab("/profile")}>
-            {tab === "/profile" ? (
-              <div className="navigation-link">
-                <i
-                  className="fa fa-user-circle"
-                  style={{ color: "blue", transform: "scale(1.5)" }}
-                ></i>
+            <div className="navigation-link">
+              {" "}
+              <div
+                className=" d-flex align-items-center hidden-arrow"
+                href="#"
+                id="navbarDropdownMenuAvatar"
+                role="button"
+                data-mdb-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <img
+                  src={user.img}
+                  className="rounded-circle"
+                  height="25"
+                  alt={user.name}
+                  title={user.name}
+                  style={
+                    tab === "/profile"
+                      ? { outline: " blue solid 2px   " }
+                      : { outline: " #000 solid 1px   " }
+                  }
+                  loading="lazy"
+                />
               </div>
-            ) : (
-              <div className="navigation-link">
-                <i className="fa fa-user-circle"></i>
-              </div>
-            )}
+            </div>
           </Link>
           <Link to="/logout">
             <div id="signout" className="navigation-link">
