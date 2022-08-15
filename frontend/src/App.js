@@ -7,6 +7,7 @@ import { loadUser } from "./Actions/User";
 import NavigationBar from "./components/NavigationBar/NavigationBar";
 import Explore from "./pages/Explore";
 import SignUp from "./pages/SignUp";
+import { ToastContainer, toast } from "react-toastify";
 
 function App() {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ function App() {
             element={isAuthenticated ? <Explore /> : <SignIn />}
           />
         </Routes>
+        <ToastContainer />
       </BrowserRouter>
     </>
   );

@@ -45,6 +45,9 @@ export const userReducer = createReducer(initialState, {
     state.error = action.payload;
     state.isAuthenticated = false;
   },
+  clearErrors: (state) => {
+    state.error = null;
+  },
 });
 
 export const allUserReducer = createReducer(initialState, {
@@ -59,6 +62,9 @@ export const allUserReducer = createReducer(initialState, {
     state.loading = false;
     state.error = action.payload;
   },
+  clearErrors: (state) => {
+    state.error = null;
+  },
 });
 export const getUserReducer = createReducer(initialState, {
   getUserRequest: (state) => {
@@ -71,5 +77,8 @@ export const getUserReducer = createReducer(initialState, {
   getUserFailure: (state, action) => {
     state.loading = false;
     state.error = action.payload;
+  },
+  clearErrors: (state) => {
+    state.error = null;
   },
 });
