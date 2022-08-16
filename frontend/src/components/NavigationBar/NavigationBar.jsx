@@ -2,17 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./NavigationBar.css";
 import { useDispatch, useSelector } from "react-redux";
-import { loadUser } from "../../Actions/User";
+import { logoutUser } from "../../Actions/User";
+import { ErrorNotification, SuccessNotification } from "../../Utils/Utils";
+import { toast } from "react-toastify";
 
 export default function NavigationBar() {
   const [tab, setTab] = useState(window.location.pathname);
+  const { user } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(loadUser());
-  }, [dispatch]);
-
-  const { user } = useSelector((state) => state.user);
 
   return (
     <>
@@ -100,11 +98,22 @@ export default function NavigationBar() {
               </div>
             </div>
           </Link>
-          <Link to="/logout">
-            <div id="signout" className="navigation-link">
-              <i className="fa fa-sign-out"></i>
-            </div>
-          </Link>
+          <div id="signout" className="navigation-link">
+            <button
+              className="btn p-0"
+              onClick={async (e) => {
+                e.preventDefault();
+                await dispatch(logoutUser());
+                await toast.success(
+                  "Logged Out Successfully",
+                  SuccessNotification
+                );
+                window.location.reload(false);
+              }}
+            >
+              <i className="fa fa-sign-out"> </i>
+            </button>
+          </div>
         </div>
       </div>
     </>

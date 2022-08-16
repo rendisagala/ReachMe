@@ -11,11 +11,11 @@ import { ToastContainer, toast } from "react-toastify";
 
 function App() {
   const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector((state) => state.user);
+
   useEffect(() => {
     dispatch(loadUser());
-  }, [dispatch]);
-
-  const { isAuthenticated } = useSelector((state) => state.user);
+  }, [dispatch, isAuthenticated]);
 
   return (
     <>

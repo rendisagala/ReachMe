@@ -36,6 +36,21 @@ export const registerUser =
     }
   };
 
+export const logoutUser = () => async (dispatch) => {
+  try {
+    dispatch({ type: "LogoutUserRequest" });
+    const data = await axios.delete(`${proxy}/logout`, {
+      withCredentials: true,
+    });
+    dispatch({ type: "LogoutUserSuccess", payload: data.data.message });
+  } catch (error) {
+    dispatch({
+      type: "LogoutUserFailure",
+      payload: error.response.data.message,
+    });
+  }
+};
+
 export const loadUser = () => async (dispatch) => {
   try {
     dispatch({ type: "LoadUserRequest" });

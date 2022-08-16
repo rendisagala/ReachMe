@@ -2,7 +2,11 @@ body {
   background-color: #eee;
 }
 .time {
-  font-size: 9px !important;
+  font-size: 10px !important;
+}
+
+.commentlike {
+  font-size: 15px !important;
 }
 
 a {

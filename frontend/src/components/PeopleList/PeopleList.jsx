@@ -56,7 +56,7 @@ export default function PeopleList() {
                       {data.followers.includes(user._id) ? (
                         <button
                           type="button"
-                          className="btn  btn-dark btn-outline-light"
+                          className="btn btn-dark btn-outline-primary text-light"
                           onClick={(e) => {
                             e.preventDefault();
                             dispatch(followUser(data._id));
@@ -67,7 +67,7 @@ export default function PeopleList() {
                       ) : (
                         <button
                           type="button"
-                          className="btn btn-outline-dark"
+                          className="btn  btn-primary btn-outline-dark text-light"
                           onClick={(e) => {
                             e.preventDefault();
                             dispatch(followUser(data._id));

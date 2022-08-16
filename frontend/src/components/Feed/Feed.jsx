@@ -139,10 +139,18 @@ function Feed() {
                               src={data.img}
                             />
                           </div>
-                          <div className="d-flex justify-content-end socials p-2 py-3">
-                            <i className="fa fa-heart"></i>
 
-                            <i className="fa fa-comments-o"></i>
+                          <div className="row col-12">
+                            <div className="d-flex justify-content-start socials  col-lg-5 text-black-50 commentlike">
+                              <span className="w-100 px-4">
+                                0 Likes || 0 Comment
+                              </span>
+                            </div>
+                            <div className="d-flex justify-content-end socials p-2 py-3 col-lg-7">
+                              <i className="fa fa-heart"></i>
+
+                              <i className="fa fa-comments-o"></i>
+                            </div>
                           </div>
                         </div>
                       );
