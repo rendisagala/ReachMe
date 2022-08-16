@@ -2,20 +2,25 @@ import React, { useEffect, useState } from "react";
 import "./PeopleList.css";
 import { useDispatch, useSelector } from "react-redux";
 import { followUser, getAllUser } from "../../Actions/User";
+import { ErrorNotification, SuccessNotification } from "../../Utils/Utils";
+import { toast } from "react-toastify";
 
 export default function PeopleList() {
+  const { users } = useSelector((state) => state.allUser);
+  const { user } = useSelector((state) => state.user);
+  const { user: followMessage } = useSelector((state) => state.followUser);
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllUser());
-  }, [dispatch]);
+  }, [dispatch, followMessage]);
 
-  const followController = (id) => {
-    dispatch(followUser(id));
-    return false;
-  };
-
-  const { users } = useSelector((state) => state.allUser);
-  const { user } = useSelector((state) => state.user);
+  useEffect(() => {
+    if (followMessage) {
+      toast.success(followMessage, SuccessNotification);
+      dispatch({ type: "clearErrors" });
+    }
+  }, [dispatch, followMessage]);
 
   return (
     <>

@@ -89,10 +89,15 @@ export const followUserReducer = createReducer(initialState, {
   followUserSuccess: (state, action) => {
     state.loading = false;
     state.user = action.payload;
+    state.done = true;
   },
   followUserFailure: (state, action) => {
     state.loading = false;
     state.error = action.payload;
+    state.done = true;
+  },
+  clearDone: (state) => {
+    state.done = null;
   },
   clearErrors: (state) => {
     state.error = null;

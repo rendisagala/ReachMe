@@ -75,12 +75,14 @@ export const followUser = (id) => async (dispatch) => {
   try {
     dispatch({ type: "followUserRequest" });
     const data = await axios
-      .put(`${proxy}/follow/${id}`, {
-        withCredentials: true,
-      })
+      .post(
+        `${proxy}/follow/${id}`,
+        { headers: { "Content-Type": "application/json" } },
+        { withCredentials: true }
+      )
       .catch((e) => console.log(e));
 
-    dispatch({ type: "followUserSuccess", payload: data.data.user });
+    dispatch({ type: "followUserSuccess", payload: data.data.message });
   } catch (error) {
     dispatch({
       type: "followUserFailure",
