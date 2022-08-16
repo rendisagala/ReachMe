@@ -11,10 +11,6 @@ export default function Login() {
 
   const dispatch = useDispatch();
 
-  const loginController = (e) => {
-    e.preventDefault();
-    dispatch(loginUser(email, password));
-  };
   return (
     <>
       <div className="container-fluid ps-md-0">
@@ -30,7 +26,12 @@ export default function Login() {
                         <div className="no-underline">Reachme</div>
                       </a>
                     </div>
-                    <form onSubmit={loginController}>
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        dispatch(loginUser(email, password));
+                      }}
+                    >
                       <div className="form-floating mb-3">
                         <input
                           value={email}

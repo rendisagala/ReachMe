@@ -82,3 +82,19 @@ export const getUserReducer = createReducer(initialState, {
     state.error = null;
   },
 });
+export const followUserReducer = createReducer(initialState, {
+  followUserRequest: (state) => {
+    state.loading = true;
+  },
+  followUserSuccess: (state, action) => {
+    state.loading = false;
+    state.user = action.payload;
+  },
+  followUserFailure: (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
+  },
+  clearErrors: (state) => {
+    state.error = null;
+  },
+});

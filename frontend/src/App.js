@@ -35,7 +35,7 @@ function App() {
             element={isAuthenticated ? <Explore /> : <SignIn />}
           />
         </Routes>
-        <ToastContainer />
+        <ToastContainer limit={3} />
       </BrowserRouter>
     </>
   );

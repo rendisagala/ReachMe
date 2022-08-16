@@ -71,3 +71,20 @@ export const getUser = (id) => async (dispatch) => {
     dispatch({ type: "getUserFailure", payload: error.response.data.message });
   }
 };
+export const followUser = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: "followUserRequest" });
+    const data = await axios
+      .put(`${proxy}/follow/${id}`, {
+        withCredentials: true,
+      })
+      .catch((e) => console.log(e));
+
+    dispatch({ type: "followUserSuccess", payload: data.data.user });
+  } catch (error) {
+    dispatch({
+      type: "followUserFailure",
+      payload: error.response.data.message,
+    });
+  }
+};

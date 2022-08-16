@@ -23,10 +23,6 @@ export default function Register() {
       setAlert("passwordCharacters");
   }, [password, reType]);
 
-  const registerController = (e) => {
-    e.preventDefault();
-    dispatch(registerUser(name, email, password, reType, img));
-  };
   const { isRegistered } = useSelector((state) => state.user);
 
   const toggleImgForm = () => (imgForm ? setImgForm(false) : setImgForm(true));
@@ -67,7 +63,14 @@ export default function Register() {
                       Add Image
                     </button>
 
-                    <form onSubmit={registerController}>
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        dispatch(
+                          registerUser(name, email, password, reType, img)
+                        );
+                      }}
+                    >
                       {imgForm ? (
                         <div className="container py-4">
                           <div className="row">

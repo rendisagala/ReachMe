@@ -10,7 +10,6 @@ import { toast } from "react-toastify";
 function Feed() {
   const [caption, setCaption] = useState("");
   const [img, setImg] = useState();
-  console.log(img);
   const { posts: allPost } = useSelector((state) => state.allPost);
   const { error: postAddedError } = useSelector((state) => state.addPost);
   const { done: postAdded } = useSelector((state) => state.addPost);
@@ -30,11 +29,6 @@ function Feed() {
       dispatch({ type: "clearDone" });
     }
   }, [dispatch, postAdded, postAddedError]);
-
-  const addPostController = (e) => {
-    e.preventDefault();
-    dispatch(addPost(caption, img));
-  };
 
   const onImageChange = (e) => {
     const file = e.target.files[0];
@@ -57,7 +51,10 @@ function Feed() {
                 <div className="feed p-2">
                   <form
                     className="d-flex flex-row justify-content-between align-items-center p-2 bg-white border"
-                    onSubmit={addPostController}
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      dispatch(addPost(caption, img));
+                    }}
                   >
                     {" "}
                     <input
