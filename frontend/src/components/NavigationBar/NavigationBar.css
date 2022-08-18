@@ -125,3 +125,9 @@ body {
   font-weight: 500;
   display: none;
 }
+
+.user-profile {
+  border-radius: 100%;
+  width: 27px;
+  height: 27px;
+}

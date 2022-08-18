@@ -3,6 +3,11 @@ import "./Register.css";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../Actions/User";
+import {
+  ErrorNotification,
+  SuccessNotification,
+  resizeFile,
+} from "../../Utils/Utils";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -27,18 +32,12 @@ export default function Register() {
 
   const toggleImgForm = () => (imgForm ? setImgForm(false) : setImgForm(true));
 
-  const onImageChange = (e) => {
+  const onImageChange = async (e) => {
     const file = e.target.files[0];
-
-    const Reader = new FileReader();
-    Reader.readAsDataURL(file);
-
-    Reader.onload = () => {
-      if (Reader.readyState === 2) {
-        setImg(Reader.result);
-      }
-    };
+    const image = await resizeFile(file);
+    setImg(image);
   };
+  console.log(img);
 
   return (
     <>
@@ -100,6 +99,7 @@ export default function Register() {
                                 <div className="custom-file">
                                   <input
                                     type="file"
+                                    accept="image/*"
                                     className="custom-file-input"
                                     id="inputGroupFile"
                                     onChange={onImageChange}

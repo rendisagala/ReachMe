@@ -70,10 +70,15 @@ export const allUserReducer = createReducer(initialState, {
   allUserSuccess: (state, action) => {
     state.loading = false;
     state.users = action.payload;
+    state.done = true;
   },
   allUserFailure: (state, action) => {
     state.loading = false;
     state.error = action.payload;
+    state.done = false;
+  },
+  clearDone: (state) => {
+    state.done = null;
   },
   clearErrors: (state) => {
     state.error = null;

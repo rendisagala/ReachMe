@@ -23,3 +23,19 @@ a {
   width: 100%;
   height: auto;
 }
+
+.comment:hover {
+  color: blue !important;
+}
+.likes:hover {
+  color: red !important;
+}
+
+.feed-profile {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+.comment-name {
+  font-size: 12px !important;
+}

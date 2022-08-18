@@ -1,5 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { addPostReducer, allPostReducer } from "./Reducers/Post";
+import {
+  addCommentReducer,
+  addLikesReducer,
+  addPostReducer,
+  allPostReducer,
+} from "./Reducers/Post";
 import {
   allUserReducer,
   followUserReducer,
@@ -15,6 +20,8 @@ const store = configureStore({
     addPost: addPostReducer,
     getUser: getUserReducer,
     followUser: followUserReducer,
+    addLikes: addLikesReducer,
+    addComment: addCommentReducer,
   },
 });
 

@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./NavigationBar.css";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "../../Actions/User";
+import { logoutUser, loadUser } from "../../Actions/User";
 import { ErrorNotification, SuccessNotification } from "../../Utils/Utils";
 import { toast } from "react-toastify";
 
 export default function NavigationBar() {
   const [tab, setTab] = useState(window.location.pathname);
-  const { user } = useSelector((state) => state.user);
+  const { user, error } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
@@ -32,44 +32,32 @@ export default function NavigationBar() {
         </div>
         <div className="navigation-icons">
           <Link to="/explore" onClick={() => setTab("/explore")}>
-            {tab === "/explore" || tab === "/" ? (
-              <div className="navigation-link">
-                <i
-                  className="fa fa-paper-plane"
-                  style={{ color: "blue", transform: "scale(1.5)" }}
-                ></i>
-              </div>
-            ) : (
-              <div className="navigation-link">
-                <i className="fa fa-paper-plane"></i>
-              </div>
-            )}
+            <div className="navigation-link">
+              <i
+                className="fa fa-paper-plane"
+                style={
+                  (tab === "/explore" || tab === "/") && {
+                    color: "blue",
+                    transform: "scale(1.5)",
+                  }
+                }
+              ></i>
+            </div>
           </Link>
           <Link to="/liked" onClick={() => setTab("/liked")}>
-            {tab === "/liked" ? (
-              <div className="navigation-link notification">
-                <i
-                  className="fa fa-heart"
-                  style={{ color: "blue", transform: "scale(1.5)" }}
-                >
-                  <div className="notification-bubble-wrapper">
-                    <div className="notification-bubble">
-                      <span className="notifications-count">99</span>
-                    </div>
-                  </div>
-                </i>
-              </div>
-            ) : (
-              <div className="navigation-link notification">
-                <i className="fa fa-heart">
-                  <div className="notification-bubble-wrapper">
-                    <div className="notification-bubble">
-                      <span className="notifications-count">99</span>
-                    </div>
-                  </div>
-                </i>
-              </div>
-            )}
+            <div className="navigation-link notification">
+              <i
+                className="fa fa-heart"
+                style={
+                  tab === "/liked"
+                    ? {
+                        color: "blue",
+                        transform: "scale(1.5)",
+                      }
+                    : {}
+                }
+              ></i>
+            </div>
           </Link>
           <Link to="/profile" onClick={() => setTab("/profile")}>
             <div className="navigation-link">
@@ -84,7 +72,7 @@ export default function NavigationBar() {
               >
                 <img
                   src={user.img}
-                  className="rounded-circle"
+                  className="rounded-circle user-profile"
                   height="25"
                   alt={user.name}
                   title={user.name}
@@ -104,11 +92,10 @@ export default function NavigationBar() {
               onClick={async (e) => {
                 e.preventDefault();
                 await dispatch(logoutUser());
-                await toast.success(
-                  "Logged Out Successfully",
-                  SuccessNotification
-                );
-                window.location.reload(false);
+                await dispatch(loadUser());
+                toast.success("Logged Out Successfully", SuccessNotification);
+
+                // window.location.reload(false);
               }}
             >
               <i className="fa fa-sign-out"> </i>

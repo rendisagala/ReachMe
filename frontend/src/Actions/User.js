@@ -19,14 +19,12 @@ export const registerUser =
   (name, email, password, reType, img) => async (dispatch) => {
     try {
       dispatch({ type: "RegisterRequest" });
-      const data = await axios
-        .post(
-          `${proxy}/register`,
-          { name, email, password, reType, img },
-          { withCredentials: true },
-          { headers: { "Content-Type": "application/json" } }
-        )
-        .catch((e) => console.log(e));
+      const data = await axios.post(
+        `${proxy}/register`,
+        { name, email, password, reType, img },
+        { withCredentials: true },
+        { headers: { "Content-Type": "application/json" } }
+      );
       dispatch({ type: "RegisterSuccess", payload: data.data.user });
     } catch (error) {
       dispatch({
@@ -89,13 +87,11 @@ export const getUser = (id) => async (dispatch) => {
 export const followUser = (id) => async (dispatch) => {
   try {
     dispatch({ type: "followUserRequest" });
-    const data = await axios
-      .post(
-        `${proxy}/follow/${id}`,
-        { headers: { "Content-Type": "application/json" } },
-        { withCredentials: true }
-      )
-      .catch((e) => console.log(e));
+    const data = await axios.post(
+      `${proxy}/follow/${id}`,
+      { headers: { "Content-Type": "application/json" } },
+      { withCredentials: true }
+    );
 
     dispatch({ type: "followUserSuccess", payload: data.data.message });
   } catch (error) {
