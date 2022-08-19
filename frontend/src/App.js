@@ -7,21 +7,15 @@ import { loadUser } from "./Actions/User";
 import NavigationBar from "./components/NavigationBar/NavigationBar";
 import Explore from "./pages/Explore";
 import SignUp from "./pages/SignUp";
-import { ToastContainer, toast } from "react-toastify";
-import { ErrorNotification, SuccessNotification } from "./Utils/Utils";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const dispatch = useDispatch();
-  const { user, isAuthenticated } = useSelector((state) => state.user);
+  const { isAuthenticated } = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(loadUser());
   }, [dispatch, isAuthenticated]);
-
-  useEffect(() => {
-    if (isAuthenticated)
-      toast.success(`Welcome ${user.name}`, SuccessNotification);
-  }, [isAuthenticated]);
 
   return (
     <>
