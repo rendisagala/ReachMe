@@ -28,6 +28,21 @@ export const addPost = (caption, img) => async (dispatch) => {
   }
 };
 
+export const deletePost = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: "deletePostRequest" });
+    const data = await axios.delete(`${proxy}/post/${id}`, {
+      withCredentials: true,
+    });
+    dispatch({ type: "deletePostSuccess", payload: data.data.message });
+  } catch (error) {
+    dispatch({
+      type: "deletePostFailure",
+      payload: error.response.data.message,
+    });
+  }
+};
+
 export const addLikes = (id) => async (dispatch) => {
   try {
     dispatch({ type: "addLikesRequest" });

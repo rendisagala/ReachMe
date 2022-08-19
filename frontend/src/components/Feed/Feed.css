@@ -39,3 +39,7 @@ a {
 .comment-name {
   font-size: 12px !important;
 }
+.collapse-options {
+  width: 70px !important;
+  position: absolute;
+}

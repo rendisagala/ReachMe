@@ -8,6 +8,7 @@ import NavigationBar from "./components/NavigationBar/NavigationBar";
 import Explore from "./pages/Explore";
 import SignUp from "./pages/SignUp";
 import { ToastContainer } from "react-toastify";
+import Profile from "./pages/Profile";
 
 function App() {
   const dispatch = useDispatch();
@@ -33,6 +34,10 @@ function App() {
           <Route
             path="/explore"
             element={isAuthenticated ? <Explore /> : <SignIn />}
+          />
+          <Route
+            path="/profile"
+            element={isAuthenticated ? <Profile /> : <SignIn />}
           />
         </Routes>
         <ToastContainer limit={3} />

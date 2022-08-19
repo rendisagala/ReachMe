@@ -90,3 +90,25 @@ export const addCommentReducer = createReducer(initialState, {
     state.error = null;
   },
 });
+export const deletePostReducer = createReducer(initialState, {
+  deletePostRequest: (state) => {
+    state.loading = true;
+  },
+  deletePostSuccess: (state, action) => {
+    state.loading = false;
+    state.posts = action.payload;
+
+    state.done = true;
+  },
+  deletePostFailure: (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
+    state.done = false;
+  },
+  clearDone: (state) => {
+    state.done = false;
+  },
+  clearErrors: (state) => {
+    state.error = null;
+  },
+});

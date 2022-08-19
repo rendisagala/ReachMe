@@ -4,6 +4,7 @@ import {
   addLikesReducer,
   addPostReducer,
   allPostReducer,
+  deletePostReducer,
 } from "./Reducers/Post";
 import {
   allUserReducer,
@@ -22,6 +23,7 @@ const store = configureStore({
     followUser: followUserReducer,
     addLikes: addLikesReducer,
     addComment: addCommentReducer,
+    deletePost: deletePostReducer,
   },
 });
 

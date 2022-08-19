@@ -4,11 +4,18 @@ import Loading from "../Loading/Loading";
 import "./Feed.css";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addPost, getAllPosts, addLikes, addComment } from "../../Actions/Post";
+import {
+  addPost,
+  getAllPosts,
+  addLikes,
+  addComment,
+  deletePost,
+} from "../../Actions/Post";
 import {
   ErrorNotification,
   SuccessNotification,
   resizeFile,
+  InfoNotification,
 } from "../../Utils/Utils";
 import { toast } from "react-toastify";
 
@@ -17,6 +24,7 @@ function Feed() {
   const [caption, setCaption] = useState("");
   const [img, setImg] = useState();
   const [toggleComment, setToggleComment] = useState(false);
+  const [toggleOptions, setToggleOptions] = useState(false);
   const [comment, setComment] = useState("");
   const { user } = useSelector((state) => state.user);
   const { posts: allPost } = useSelector((state) => state.allPost);
@@ -26,6 +34,7 @@ function Feed() {
   const { done: commentAdded, error: commentError } = useSelector(
     (state) => state.addComment
   );
+  const { done: postDeleted } = useSelector((state) => state.deletePost);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -37,6 +46,7 @@ function Feed() {
     postLiked,
     commentAdded,
     commentError,
+    postDeleted,
   ]);
 
   useEffect(() => {
@@ -62,6 +72,10 @@ function Feed() {
       toast.error(commentError, ErrorNotification);
       dispatch({ type: "clearErrors" });
     }
+    if (postDeleted) {
+      toast.info("Post Deleted", InfoNotification);
+      dispatch({ type: "clearDone" });
+    }
   }, [
     dispatch,
     postAddedError,
@@ -69,6 +83,7 @@ function Feed() {
     postLiked,
     commentAdded,
     commentError,
+    postDeleted,
   ]);
 
   const onImageChange = async (e) => {
@@ -76,7 +91,8 @@ function Feed() {
     const image = await resizeFile(file);
     setImg(image);
   };
-
+  console.log(selected);
+  console.log(toggleOptions);
   return (
     <>
       <div className="row d-flex ">
@@ -163,7 +179,47 @@ function Feed() {
                                     </div>
                                   </div>
                                   <div className="feed-icon px-2">
-                                    <i className="fa fa-ellipsis-v text-black-50"></i>
+                                    <button
+                                      className="btn"
+                                      onClick={() => {
+                                        setToggleOptions((current) => !current);
+                                        setSelected(data._id);
+                                      }}
+                                    >
+                                      <i className="fa fa-ellipsis-v text-black-50"></i>
+                                    </button>
+                                    {/*  */}
+                                    <div
+                                      class={
+                                        toggleOptions && selected === data._id
+                                          ? "collapse-options"
+                                          : "collapse-options collapse"
+                                      }
+                                      id="collapseExample"
+                                    >
+                                      <button
+                                        className="btn   btn-danger row time col-12"
+                                        onClick={() =>
+                                          toast.info(
+                                            "Post Reported!!",
+                                            InfoNotification
+                                          )
+                                        }
+                                      >
+                                        Report
+                                      </button>
+                                      {data.author._id === user._id && (
+                                        <button
+                                          className="btn   btn-danger row time col-12"
+                                          onClick={() =>
+                                            dispatch(deletePost(data._id))
+                                          }
+                                        >
+                                          Delete
+                                        </button>
+                                      )}
+                                    </div>
+                                    {/*  */}
                                   </div>
                                 </div>
                               </div>
