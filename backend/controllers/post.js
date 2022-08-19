@@ -104,7 +104,7 @@ exports.getPostOfFollowing = [
       const user = await User.findById(req.user._id);
       const posts = await Post.find({
         author: { $in: user.following },
-      }).populate("author likes comments.user");
+      }).populate("author comments.user");
       return res.status(200).json({ success: true, posts });
     } catch (error) {
       return res.status(500).json({ success: false, message: error.message });
@@ -188,7 +188,7 @@ exports.addComment = [
 exports.getAllPost = [
   async (req, res) => {
     try {
-      const posts = await Post.find().populate("author likes comments.user");
+      const posts = await Post.find().populate("author comments.user");
       res.status(200).json({ success: true, posts });
     } catch (error) {
       return res.status(500).json({ success: false, message: error.message });
