@@ -131,3 +131,6 @@ body {
   width: 27px;
   height: 27px;
 }
+.logout i:hover {
+  cursor: pointer;
+}

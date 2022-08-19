@@ -18,7 +18,7 @@ function Feed() {
   const [img, setImg] = useState();
   const [toggleComment, setToggleComment] = useState(false);
   const [comment, setComment] = useState("");
-  const { user, error } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
   const { posts: allPost } = useSelector((state) => state.allPost);
   const { error: postAddedError } = useSelector((state) => state.addPost);
   const { done: postAdded } = useSelector((state) => state.addPost);
@@ -30,7 +30,14 @@ function Feed() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllPosts());
-  }, [dispatch, postAdded, postAddedError, postLiked]);
+  }, [
+    dispatch,
+    postAdded,
+    postAddedError,
+    postLiked,
+    commentAdded,
+    commentError,
+  ]);
 
   useEffect(() => {
     if (postAddedError) {
@@ -40,13 +47,15 @@ function Feed() {
     if (postAdded === true) {
       toast.success("Post Uploaded", SuccessNotification);
       dispatch({ type: "clearDone" });
+      setCaption("");
+      setImg();
     }
     if (postLiked === true) {
       toast.success(postLiked, SuccessNotification);
       dispatch({ type: "clearDone" });
     }
     if (commentAdded === true) {
-      toast.success(commentAdded, SuccessNotification);
+      toast.success("Comment Posted", SuccessNotification);
       dispatch({ type: "clearDone" });
     }
     if (commentError) {
@@ -67,8 +76,6 @@ function Feed() {
     const image = await resizeFile(file);
     setImg(image);
   };
-
-  console.log(toggleComment);
 
   return (
     <>

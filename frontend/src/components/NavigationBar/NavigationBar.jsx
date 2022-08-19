@@ -36,10 +36,12 @@ export default function NavigationBar() {
               <i
                 className="fa fa-paper-plane"
                 style={
-                  (tab === "/explore" || tab === "/") && {
-                    color: "blue",
-                    transform: "scale(1.5)",
-                  }
+                  tab === "/explore" || tab === "/"
+                    ? {
+                        color: "blue",
+                        transform: "scale(1.5)",
+                      }
+                    : {}
                 }
               ></i>
             </div>
@@ -86,20 +88,20 @@ export default function NavigationBar() {
               </div>
             </div>
           </Link>
-          <div id="signout" className="navigation-link">
-            <button
-              className="btn p-0"
-              onClick={async (e) => {
-                e.preventDefault();
-                await dispatch(logoutUser());
-                await dispatch(loadUser());
-                toast.success("Logged Out Successfully", SuccessNotification);
 
-                // window.location.reload(false);
-              }}
-            >
-              <i className="fa fa-sign-out"> </i>
-            </button>
+          <div
+            className="navigation-link  notification logout"
+            onClick={async (e) => {
+              e.preventDefault();
+              await dispatch(logoutUser());
+              await toast.success(
+                "Logged Out Successfully",
+                SuccessNotification
+              );
+              dispatch(loadUser());
+            }}
+          >
+            <i className="fa fa-sign-out"> </i>
           </div>
         </div>
       </div>

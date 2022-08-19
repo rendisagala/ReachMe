@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./Login.css";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../Actions/User";
+import { ErrorNotification, SuccessNotification } from "../../Utils/Utils";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -10,6 +12,15 @@ export default function Login() {
   const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch();
+
+  const { error: loginError } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (loginError && loginError !== "Please login first") {
+      toast.error(loginError, ErrorNotification);
+      dispatch({ type: "clearErrors" });
+    }
+  }, [loginError]);
 
   return (
     <>

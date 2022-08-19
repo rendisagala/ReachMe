@@ -23,6 +23,11 @@ exports.createPost = [
         img: req.body.img,
         author: req.user._id,
       };
+      if (req.body.caption.length < 1)
+        return res.status(400).json({
+          success: false,
+          message: "Caption Can't Be Empty",
+        });
       const post = await Post.create(newPostData);
       const user = await User.findById(req.user._id);
 

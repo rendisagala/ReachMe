@@ -8,6 +8,7 @@ import {
   SuccessNotification,
   resizeFile,
 } from "../../Utils/Utils";
+import { toast } from "react-toastify";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -20,6 +21,8 @@ export default function Register() {
   const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch();
+  const { isRegistered } = useSelector((state) => state.user);
+  const { error: registerError } = useSelector((state) => state.user);
 
   useEffect(() => {
     setAlert("");
@@ -27,8 +30,24 @@ export default function Register() {
     if (password.length < 8 && password.length !== 0)
       setAlert("passwordCharacters");
   }, [password, reType]);
-
-  const { isRegistered } = useSelector((state) => state.user);
+  useEffect(() => {
+    if (registerError && registerError !== "Please login first") {
+      toast.error(registerError, ErrorNotification);
+      dispatch({ type: "clearErrors" });
+    }
+    if (isRegistered) {
+      toast.success(
+        "Success! Please go to login page with your registered account",
+        SuccessNotification
+      );
+      setName("");
+      setEmail("");
+      setPassword("");
+      setImg("");
+      setReType("");
+      setImgForm(false);
+    }
+  }, [dispatch, registerError, isRegistered]);
 
   const toggleImgForm = () => (imgForm ? setImgForm(false) : setImgForm(true));
 
@@ -37,7 +56,6 @@ export default function Register() {
     const image = await resizeFile(file);
     setImg(image);
   };
-  console.log(img);
 
   return (
     <>
