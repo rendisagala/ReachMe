@@ -20,11 +20,8 @@ import {
 import { toast } from "react-toastify";
 
 function Feed() {
-  const [selected, setSelected] = useState("");
   const [caption, setCaption] = useState("");
   const [img, setImg] = useState();
-  const [toggleComment, setToggleComment] = useState(false);
-  const [toggleOptions, setToggleOptions] = useState(false);
   const [comment, setComment] = useState("");
   const { user } = useSelector((state) => state.user);
   const { posts: allPost } = useSelector((state) => state.allPost);
@@ -91,8 +88,7 @@ function Feed() {
     const image = await resizeFile(file);
     setImg(image);
   };
-  console.log(selected);
-  console.log(toggleOptions);
+
   return (
     <>
       <div className="row d-flex ">
@@ -102,7 +98,7 @@ function Feed() {
               <div className="col-md-12">
                 <div className="feed p-2">
                   <form
-                    className="d-flex flex-row justify-content-between align-items-center p-2 bg-white border"
+                    className="d-flex flex-row justify-content-between align-items-center p-2 bg-white border card border border-dark"
                     onSubmit={(e) => {
                       e.preventDefault();
                       dispatch(addPost(caption, img));
@@ -152,9 +148,12 @@ function Feed() {
                         .reverse()
                         .map((data, index) => {
                           return (
-                            <div className="bg-white border mt-2" key={index}>
+                            <div
+                              className="bg-white border mt-2 card border-dark px-lg-5"
+                              key={index}
+                            >
                               <div>
-                                <div className="d-flex flex-row justify-content-between align-items-center p-2 border-bottom">
+                                <div className="d-flex flex-row justify-content-between align-items-center p-2 border-bottom border-dark">
                                   <div className="d-flex flex-row align-items-center feed-text px-2">
                                     <Link to={`/user/${data.author._id}`}>
                                       <img
@@ -182,26 +181,22 @@ function Feed() {
                                     <button
                                       className="btn"
                                       onClick={() => {
-                                        setToggleOptions((current) => !current);
-                                        setSelected(data._id);
+                                        document
+                                          .getElementById(`options${data._id}`)
+                                          .classList.toggle("collapse");
                                       }}
                                     >
                                       <i className="fa fa-ellipsis-v text-black-50"></i>
                                     </button>
-                                    {/*  */}
                                     <div
-                                      class={
-                                        toggleOptions && selected === data._id
-                                          ? "collapse-options"
-                                          : "collapse-options collapse"
-                                      }
-                                      id="collapseExample"
+                                      className="collapse-options collapse"
+                                      id={`options${data._id}`}
                                     >
                                       <button
                                         className="btn   btn-danger row time col-12"
                                         onClick={() =>
                                           toast.info(
-                                            "Post Reported!!",
+                                            `Post Reported : ${data._id}`,
                                             InfoNotification
                                           )
                                         }
@@ -219,25 +214,27 @@ function Feed() {
                                         </button>
                                       )}
                                     </div>
-                                    {/*  */}
                                   </div>
                                 </div>
                               </div>
-                              <div className="feed-image p-2 px-3">
+                              <div className="feed-image p-2">
                                 {" "}
                                 <div className="p-2">
                                   <span>{data.caption}</span>
                                 </div>
-                                <img
-                                  className="img-fluid img-responsive "
-                                  src={data.img}
-                                />
+                                {data.img && (
+                                  <img
+                                    className="img-fluid img-responsive "
+                                    src={data.img}
+                                    alt={data._id}
+                                  />
+                                )}
                               </div>
                               <div className="d-flex justify-content-end socials p-2 py-3 ">
                                 <div className="p-2">
                                   <button
                                     className="btn p-0 m-0  btn-link "
-                                    onClick={async (e) => {
+                                    onClick={(e) => {
                                       e.preventDefault();
                                       dispatch(addLikes(data._id));
                                     }}
@@ -260,8 +257,9 @@ function Feed() {
                                   <button
                                     className="btn p-0 m-0  btn-link"
                                     onClick={() => {
-                                      setToggleComment((current) => !current);
-                                      setSelected(data._id);
+                                      document
+                                        .getElementById(`comment${data._id}`)
+                                        .classList.toggle("visually-hidden");
                                     }}
                                   >
                                     <i className="fa fa-comments-o p-0 m-0 comment"></i>{" "}
@@ -273,11 +271,8 @@ function Feed() {
                               </div>{" "}
                               {/*  */}{" "}
                               <div
-                                className={
-                                  toggleComment && selected === data._id
-                                    ? "comment-section"
-                                    : "comment-section visually-hidden"
-                                }
+                                className="visually-hidden"
+                                id={`comment${data._id}`}
                               >
                                 <form
                                   className="d-flex flex-row justify-content-between align-items-cente border"
@@ -286,13 +281,12 @@ function Feed() {
                                     dispatch(addComment(data._id, comment));
                                   }}
                                 >
-                                  {" "}
                                   <input
                                     type="text"
                                     name="comment"
                                     placeholder="Add Comment"
                                     onChange={(e) => setComment(e.target.value)}
-                                    className="w-100 border-0 rounded"
+                                    className="w-100 border-0 rounded comment-input"
                                   />{" "}
                                   <button className="feed-icon px-2  bg-transparent  btn btn-light">
                                     <i className="fa fa-long-arrow-up text-black-50"></i>
@@ -300,36 +294,27 @@ function Feed() {
                                 </form>
                                 {data.comments.map((res, index) => {
                                   return (
-                                    <div
-                                      className="d-flex flex-row align-items-center feed-text px-2 row"
-                                      key={index}
-                                    >
-                                      <div className="col-2">
-                                        <Link to={`/user/${res.user._id}`}>
+                                    <div className="comment-section border ">
+                                      <p>{`"${res.comment}"`}</p>
+
+                                      <div className="d-flex justify-content-between">
+                                        <div className="d-flex flex-row align-items-center">
                                           <img
-                                            className="rounded-circle feed-profile"
                                             src={res.user.img}
-                                            width="15"
+                                            alt="avatar"
+                                            width="25"
+                                            height="25"
+                                            className="rounded rounded-circle"
                                           />
-                                        </Link>
-                                        <div className="d-flex flex-column flex-wrap ml-2">
-                                          <Link to={`/user/${res.user._id}`}>
-                                            <p className=" font-weight-light px-1 comment-name">
-                                              {res.user.name}
-                                            </p>{" "}
-                                          </Link>
-                                        </div>
-                                      </div>
-                                      <div className="col-10">
-                                        <div className="p-2">
-                                          <span>{res.comment}</span>
+                                          <p className="small mb-0 ms-2">
+                                            {res.user.name}
+                                          </p>
                                         </div>
                                       </div>
                                     </div>
                                   );
                                 })}
                               </div>
-                              {/*  */}
                             </div>
                           );
                         })}

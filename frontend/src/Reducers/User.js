@@ -121,3 +121,46 @@ export const followUserReducer = createReducer(initialState, {
     state.error = null;
   },
 });
+export const updateUserReducer = createReducer(initialState, {
+  updateUserRequest: (state) => {
+    state.loading = true;
+  },
+  updateUserSuccess: (state, action) => {
+    state.loading = false;
+    state.message = action.payload;
+    state.done = true;
+  },
+  updateUserFailure: (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
+    state.done = true;
+  },
+  clearDone: (state) => {
+    state.done = null;
+  },
+  clearErrors: (state) => {
+    state.error = null;
+  },
+});
+
+export const updatePasswordReducer = createReducer(initialState, {
+  updatePasswordRequest: (state) => {
+    state.loading = true;
+  },
+  updatePasswordSuccess: (state, action) => {
+    state.loading = false;
+    state.message = action.payload;
+    state.done = true;
+  },
+  updatePasswordFailure: (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
+    state.done = true;
+  },
+  clearDone: (state) => {
+    state.done = null;
+  },
+  clearErrors: (state) => {
+    state.error = null;
+  },
+});

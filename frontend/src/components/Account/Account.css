@@ -1,0 +1,71 @@
+.main {
+  height: auto;
+  width: 35vw;
+  background-color: white;
+  margin: auto;
+  /* position: relative; */
+  padding: 3vh;
+}
+.picture img {
+  height: 8vw;
+  width: 8vw;
+  position: relative;
+  top: 1vw;
+}
+
+.name {
+  font-size: 25px;
+}
+.details p {
+  position: relative;
+  top: 1vw;
+}
+.edit {
+  width: 90%;
+}
+
+td {
+  text-align: center;
+}
+tr {
+  border: 2px solid white;
+}
+.table {
+  margin-top: 2vw;
+}
+.desc {
+  position: relative;
+  color: #000000;
+  font-size: 30px;
+  font-family: "billabong", sans-serif;
+  text-decoration: none;
+}
+.password-change {
+  -webkit-text-security: disc;
+}
+
+@media only screen and (max-width: 425px) {
+  .main {
+    width: 100vw;
+    height: auto;
+  }
+  .picture img {
+    height: 40vw;
+    width: 40vw;
+    position: relative;
+    left: 5vw;
+  }
+  .details p {
+    position: relative;
+    top: 5vw;
+  }
+  .add {
+    position: relative;
+    top: 8vw;
+  }
+}
+@media only screen and (max-height: 725px) {
+  .main {
+    height: auto;
+  }
+}

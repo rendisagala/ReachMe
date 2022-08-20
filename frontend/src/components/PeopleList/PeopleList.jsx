@@ -19,10 +19,7 @@ export default function PeopleList() {
   }, [dispatch, followMessage]);
 
   useEffect(() => {
-    if (followMessage) {
-      toast.success(followMessage, SuccessNotification);
-      dispatch({ type: "clearErrors" });
-    }
+    if (followMessage) toast.success(followMessage, SuccessNotification);
   }, [dispatch, followMessage]);
 
   return (

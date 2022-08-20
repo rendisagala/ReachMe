@@ -13,6 +13,18 @@ export const getAllPosts = () => async (dispatch) => {
   }
 };
 
+export const getMyPosts = () => async (dispatch) => {
+  try {
+    dispatch({ type: "myPostRequest" });
+    const data = await axios.get(`${proxy}/myposts`, {
+      withCredentials: true,
+    });
+    dispatch({ type: "myPostSuccess", payload: data.data.posts });
+  } catch (error) {
+    dispatch({ type: "myPostFailure", payload: error.response.data.message });
+  }
+};
+
 export const addPost = (caption, img) => async (dispatch) => {
   try {
     dispatch({ type: "addPostRequest" });

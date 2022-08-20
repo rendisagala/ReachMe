@@ -10,6 +10,7 @@ router
   .route("/post/:id")
   .put(auth.isAuth, post.updateCaption)
   .delete(auth.isAuth, post.deletePost);
+router.route("/myposts").get(auth.isAuth, post.getMyPost);
 router.route("/posts").get(auth.isAuth, post.getAllPost);
 router.route("/post/following").get(auth.isAuth, post.getPostOfFollowing);
 router.route("/post/like/:id").put(auth.isAuth, post.likeAndUnlike);

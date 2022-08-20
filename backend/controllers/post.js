@@ -195,3 +195,16 @@ exports.getAllPost = [
     }
   },
 ];
+
+exports.getMyPost = [
+  async (req, res) => {
+    try {
+      const posts = await Post.find({ author: req.user._id }).populate(
+        "author likes comments.user"
+      );
+      res.status(200).json({ success: true, posts });
+    } catch (error) {
+      return res.status(500).json({ success: false, message: error.message });
+    }
+  },
+];

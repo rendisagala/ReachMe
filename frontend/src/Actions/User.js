@@ -61,6 +61,43 @@ export const loadUser = () => async (dispatch) => {
   }
 };
 
+export const updateUser = (name, img, email) => async (dispatch) => {
+  try {
+    dispatch({ type: "updateUserRequest" });
+    const data = await axios.put(
+      `${proxy}/update/user`,
+      { name, img, email },
+      { withCredentials: true },
+      { headers: { "Content-Type": "application/json" } }
+    );
+    dispatch({ type: "updateUserSuccess", payload: data.data.user });
+  } catch (error) {
+    dispatch({
+      type: "updateUserFailure",
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const updatePassword =
+  (oldPassword, newPassword, reType) => async (dispatch) => {
+    try {
+      dispatch({ type: "updatePasswordRequest" });
+      const data = await axios.put(
+        `${proxy}/update/password`,
+        { oldPassword, newPassword, reType },
+        { withCredentials: true },
+        { headers: { "Content-Type": "application/json" } }
+      );
+      dispatch({ type: "updatePasswordSuccess", payload: data.data.user });
+    } catch (error) {
+      dispatch({
+        type: "updatePasswordFailure",
+        payload: error.response.data.message,
+      });
+    }
+  };
+
 export const getAllUser = () => async (dispatch) => {
   try {
     dispatch({ type: "allUserRequest" });

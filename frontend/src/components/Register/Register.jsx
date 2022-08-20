@@ -18,7 +18,6 @@ export default function Register() {
   const [reType, setReType] = useState("");
   const [alert, setAlert] = useState("");
   const [imgForm, setImgForm] = useState(false);
-  const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch();
   const { isRegistered } = useSelector((state) => state.user);
