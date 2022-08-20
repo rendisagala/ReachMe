@@ -36,7 +36,7 @@ exports.createPost = [
 
       return res.status(201).json({
         success: true,
-        post,
+        message: "Post Uploaded",
       });
     } catch (error) {
       return res.status(500).json({ message: error.message, success: false });
@@ -177,7 +177,7 @@ exports.addComment = [
 
       return res.status(200).json({
         success: true,
-        message: `Comment Added (${req.body.comment})`,
+        message: `Comment Added`,
       });
     } catch (error) {
       return res.status(500).json({ success: false, message: error.message });

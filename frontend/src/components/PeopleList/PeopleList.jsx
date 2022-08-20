@@ -8,19 +8,30 @@ import { ErrorNotification, SuccessNotification } from "../../Utils/Utils";
 import { toast } from "react-toastify";
 
 export default function PeopleList() {
-  const { users } = useSelector((state) => state.allUser);
   const { user } = useSelector((state) => state.user);
-  const { user: followMessage } = useSelector((state) => state.followUser);
+  const {
+    users,
+    message: allUserMessage,
+    done: allUserDone,
+    error: allUserError,
+  } = useSelector((state) => state.allUser);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllUser());
-  }, [dispatch, followMessage]);
+  }, [dispatch, allUserMessage, allUserDone, allUserError]);
 
   useEffect(() => {
-    if (followMessage) toast.success(followMessage, SuccessNotification);
-  }, [dispatch, followMessage]);
+    if (allUserDone === true) {
+      toast.success(allUserMessage, SuccessNotification);
+      dispatch({ type: "clearDone" });
+    }
+    if (allUserDone === false) {
+      toast.error(allUserError, ErrorNotification);
+      dispatch({ type: "clearErrors" });
+    }
+  }, [dispatch, allUserMessage, allUserDone, allUserError]);
 
   return (
     <>

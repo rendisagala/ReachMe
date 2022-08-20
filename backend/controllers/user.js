@@ -209,7 +209,7 @@ exports.updatePassword = [
       if (!reType || reType !== newPassword)
         return res
           .status(400)
-          .json({ success: false, message: "Re-type New Password" });
+          .json({ success: false, message: "Confirm New Password" });
 
       user.password = newPassword;
       await user.save();

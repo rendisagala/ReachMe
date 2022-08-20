@@ -14,7 +14,6 @@ import {
 import {
   ErrorNotification,
   SuccessNotification,
-  resizeFile,
   InfoNotification,
 } from "../../Utils/Utils";
 import { toast } from "react-toastify";
@@ -36,116 +35,106 @@ function Account() {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.user);
-  const { posts: myPost } = useSelector((state) => state.myPost);
-  const { error: postAddedError } = useSelector((state) => state.addPost);
-  const { done: postAdded } = useSelector((state) => state.addPost);
-  const { done: postLiked } = useSelector((state) => state.addLikes);
-  const { done: commentAdded, error: commentError } = useSelector(
-    (state) => state.addComment
-  );
-  const { done: postDeleted } = useSelector((state) => state.deletePost);
-  const { done: userUpdated } = useSelector((state) => state.updateUser);
-  const { done: passwordUpdated, error: updatePasswordError } = useSelector(
-    (state) => state.updatePassword
-  );
+  const {
+    message: myUserMessage,
+    error: myUserError,
+    done: myUserDone,
+  } = useSelector((state) => state.myUser);
+
+  const {
+    posts,
+    message: myPostMessage,
+    error: myPostError,
+    done: myPostDone,
+  } = useSelector((state) => state.myPost);
+  const {
+    message: likesCommentMessage,
+    error: likesCommentError,
+    done: likesCommentDone,
+  } = useSelector((state) => state.likesAndComment);
+
+  const onImageChange = (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    const Reader = new FileReader();
+    Reader.readAsDataURL(file);
+    Reader.onload = () => {
+      if (Reader.readyState === 2) {
+        !img || editedImg ? setImg(Reader.result) : setEditedImg(Reader.result);
+      }
+    };
+  };
 
   useEffect(() => {
     dispatch(loadUser());
     dispatch(getMyPosts());
   }, [
     dispatch,
-    postAdded,
-    postAddedError,
-    postLiked,
-    commentAdded,
-    commentError,
-    postDeleted,
-    userUpdated,
-    updatePasswordError,
-    passwordUpdated,
+    likesCommentError,
+    likesCommentDone,
+    likesCommentMessage,
+    myPostMessage,
+    myPostError,
+    myPostDone,
+    myUserError,
+    myUserDone,
+    myUserMessage,
   ]);
 
   useEffect(() => {
-    if (postAddedError) {
-      toast.error(postAddedError, ErrorNotification);
+    if (myPostDone === false) {
+      toast.error(myPostError, ErrorNotification);
       dispatch({ type: "clearErrors" });
     }
-    if (postAdded === true) {
-      toast.success("Post Uploaded", SuccessNotification);
+    if (myPostDone === true) {
+      toast.success(myPostMessage, SuccessNotification);
       dispatch({ type: "clearDone" });
       setCaption("");
       setImg();
-    }
-    if (postLiked === true) {
-      toast.success(postLiked, SuccessNotification);
-      dispatch({ type: "clearDone" });
-    }
-    if (commentAdded === true) {
-      toast.success("Comment Posted", SuccessNotification);
-      dispatch({ type: "clearDone" });
-    }
-    if (commentError) {
-      toast.error(commentError, ErrorNotification);
-      dispatch({ type: "clearErrors" });
-    }
-    if (postDeleted) {
-      toast.info("Post Deleted", InfoNotification);
-      dispatch({ type: "clearDone" });
-    }
-    if (userUpdated === true) {
-      toast.success("User Updated", SuccessNotification);
-      dispatch({ type: "clearDone" });
       setName();
       setEmail();
       setEditedImg();
-    }
-    if (updatePasswordError) {
-      toast.error(updatePasswordError, ErrorNotification);
-      dispatch({ type: "clearErrors" });
-    }
-    if (passwordUpdated === true) {
-      toast.success("Password Updated", SuccessNotification);
-      dispatch({ type: "clearDone" });
       setOldPassword();
       setNewPassword();
       setRetype();
     }
+    if (likesCommentDone === false) {
+      toast.error(likesCommentError, ErrorNotification);
+      dispatch({ type: "clearErrors" });
+    }
+    if (likesCommentDone === true) {
+      toast.success(likesCommentMessage, SuccessNotification);
+      dispatch({ type: "clearDone" });
+    }
+    if (myUserDone === true) {
+      toast.success(myUserMessage, SuccessNotification);
+      dispatch({ type: "clearDone" });
+      setCaption("");
+      setImg();
+      setName();
+      setEmail();
+      setEditedImg();
+      setOldPassword();
+      setNewPassword();
+      setRetype();
+    }
+    if (myUserDone === false) {
+      toast.error(myUserError, ErrorNotification);
+      dispatch({ type: "clearErrors" });
+    }
   }, [
     dispatch,
-    postAddedError,
-    postAdded,
-    postLiked,
-    commentAdded,
-    commentError,
-    postDeleted,
-    userUpdated,
-    updatePasswordError,
-    passwordUpdated,
+    likesCommentError,
+    likesCommentDone,
+    likesCommentMessage,
+    myPostMessage,
+    myPostError,
+    myPostDone,
+    myUserError,
+    myUserDone,
+    myUserMessage,
   ]);
 
-  const updatePasswordController = () => {
-    setTogglePassword((current) => !current);
-    {
-      !oldPassword && toast.error("Enter Old Password", ErrorNotification);
-    }
-    {
-      !newPassword && toast.error("Enter New Password", ErrorNotification);
-    }
-    {
-      !reType && toast.error("Confirm New Password", ErrorNotification);
-    }
-    {
-      if (oldPassword && newPassword && reType)
-        dispatch(updatePassword(oldPassword, newPassword, reType));
-    }
-  };
-
-  const onImageChange = async (e) => {
-    const file = e.target.files[0];
-    const image = await resizeFile(file);
-    setEditedImg(image);
-  };
-  console.log(oldPassword);
   return (
     <>
       <div className=" main pt-5 profile-card">
@@ -164,6 +153,7 @@ function Account() {
 
                     <input
                       type="file"
+                      accept="image/*"
                       id="upload"
                       style={{ display: "none" }}
                       onChange={onImageChange}
@@ -224,7 +214,13 @@ function Account() {
                   onClick={
                     !togglePassword
                       ? () => setTogglePassword((current) => !current)
-                      : updatePasswordController
+                      : () => {
+                          if (oldPassword && newPassword && reType)
+                            dispatch(
+                              updatePassword(oldPassword, newPassword, reType)
+                            );
+                          setTogglePassword((current) => !current);
+                        }
                   }
                 >
                   Update Password
@@ -315,10 +311,11 @@ function Account() {
         ) : (
           <>
             <button
-              className="waves-effect waves-light btn btn-primary edit "
+              className="waves-effect waves-light btn btn-danger edit "
               onClick={() => {
                 setToggleEdit((current) => !current);
-                dispatch(updateUser(name, editedImg, email));
+                (name || editedImg || email) &&
+                  dispatch(updateUser(name, editedImg, email));
               }}
             >
               Done
@@ -361,6 +358,7 @@ function Account() {
             <input
               type="file"
               id="upload"
+              accept="image/*"
               style={{ display: "none" }}
               onChange={onImageChange}
             />
@@ -369,9 +367,26 @@ function Account() {
             <i className="fa fa-long-arrow-up text-black-50"></i>
           </button>{" "}
         </form>
-        {myPost ? (
+        <div className="feed-image px-3 col-8">
+          {img && (
+            <button
+              className="btn btn-danger btn-sm rounded-0"
+              type="button"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Delete"
+              onClick={() => {
+                setImg();
+              }}
+            >
+              <i className="fa fa-trash"></i>
+            </button>
+          )}
+          <img className="img-fluid img-responsive" src={img} />
+        </div>
+        {posts ? (
           <>
-            {myPost
+            {posts
               ?.slice(0)
               .reverse()
               .map((data, index) => {

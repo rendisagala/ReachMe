@@ -34,7 +34,7 @@ export const addPost = (caption, img) => async (dispatch) => {
       { withCredentials: true },
       { headers: { "Content-Type": "multipart/form-data" } }
     );
-    dispatch({ type: "addPostSuccess", payload: data.data.post });
+    dispatch({ type: "addPostSuccess", payload: data.data.message });
   } catch (error) {
     dispatch({ type: "addPostFailure", payload: error.response.data.message });
   }
@@ -63,7 +63,7 @@ export const addLikes = (id) => async (dispatch) => {
       { headers: { "Content-Type": "application/json" } },
       { withCredentials: true }
     );
-    dispatch({ type: "addLikesSuccess", payload: data.data.post });
+    dispatch({ type: "addLikesSuccess", payload: data.data.message });
   } catch (error) {
     dispatch({
       type: "addLikesFailure",
@@ -82,7 +82,7 @@ export const addComment = (id, comment) => async (dispatch) => {
         withCredentials: true,
       }
     );
-    dispatch({ type: "addCommentSuccess", payload: data.data.post });
+    dispatch({ type: "addCommentSuccess", payload: data.data.message });
   } catch (error) {
     dispatch({
       type: "addCommentFailure",

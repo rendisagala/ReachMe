@@ -3,11 +3,7 @@ import "./Register.css";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../Actions/User";
-import {
-  ErrorNotification,
-  SuccessNotification,
-  resizeFile,
-} from "../../Utils/Utils";
+import { ErrorNotification, SuccessNotification } from "../../Utils/Utils";
 import { toast } from "react-toastify";
 
 export default function Register() {
@@ -19,9 +15,23 @@ export default function Register() {
   const [alert, setAlert] = useState("");
   const [imgForm, setImgForm] = useState(false);
 
+  const onImageChange = (e) => {
+    const file = e.target.files[0];
+    const Reader = new FileReader();
+    Reader.readAsDataURL(file);
+    Reader.onload = () => {
+      if (Reader.readyState === 2) {
+        setImg(Reader.result);
+      }
+    };
+  };
+
   const dispatch = useDispatch();
-  const { isRegistered } = useSelector((state) => state.user);
-  const { error: registerError } = useSelector((state) => state.user);
+  const {
+    done: userDone,
+    error: userError,
+    message: userMessage,
+  } = useSelector((state) => state.user);
 
   useEffect(() => {
     setAlert("");
@@ -29,16 +39,18 @@ export default function Register() {
     if (password.length < 8 && password.length !== 0)
       setAlert("passwordCharacters");
   }, [password, reType]);
+
   useEffect(() => {
-    if (registerError && registerError !== "Please login first") {
-      toast.error(registerError, ErrorNotification);
+    if (userError && userError !== "Please login first") {
+      toast.error(userError, ErrorNotification);
       dispatch({ type: "clearErrors" });
     }
-    if (isRegistered) {
+    if (userDone) {
       toast.success(
         "Success! Please go to login page with your registered account",
         SuccessNotification
       );
+      dispatch({ type: "clearDone" });
       setName("");
       setEmail("");
       setPassword("");
@@ -46,15 +58,9 @@ export default function Register() {
       setReType("");
       setImgForm(false);
     }
-  }, [dispatch, registerError, isRegistered]);
+  }, [dispatch, userError, userDone]);
 
   const toggleImgForm = () => (imgForm ? setImgForm(false) : setImgForm(true));
-
-  const onImageChange = async (e) => {
-    const file = e.target.files[0];
-    const image = await resizeFile(file);
-    setImg(image);
-  };
 
   return (
     <>
@@ -212,7 +218,7 @@ export default function Register() {
                           Sign Up
                         </button>
 
-                        {isRegistered ? (
+                        {userDone ? (
                           <div
                             className="alert alert-success  text-center"
                             role="alert"

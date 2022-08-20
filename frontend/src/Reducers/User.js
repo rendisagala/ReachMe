@@ -7,7 +7,7 @@ export const userReducer = createReducer(initialState, {
   },
   LoginSuccess: (state, action) => {
     state.loading = false;
-    state.user = action.payload;
+    state.message = action.payload;
     state.isAuthenticated = true;
   },
   LoginFailure: (state, action) => {
@@ -21,14 +21,14 @@ export const userReducer = createReducer(initialState, {
   },
   RegisterSuccess: (state, action) => {
     state.loading = false;
-    state.user = action.payload;
-    state.isRegistered = true;
+    state.message = action.payload;
+    state.done = true;
     // state.isAuthenticated = true;
   },
   RegisterFailure: (state, action) => {
     state.loading = false;
     state.error = action.payload;
-    state.isRegistered = false;
+    state.done = false;
     // state.isAuthenticated = false;
   },
 
@@ -50,13 +50,13 @@ export const userReducer = createReducer(initialState, {
   },
   LogoutSuccess: (state, action) => {
     state.loading = false;
-    state.user = action.payload;
-    state.isAuthenticated = false;
+    state.message = action.payload;
+    state.done = false;
   },
   LogoutFailure: (state, action) => {
     state.loading = false;
     state.error = action.payload;
-    state.isAuthenticated = true;
+    state.done = true;
   },
   clearErrors: (state) => {
     state.error = null;
@@ -70,9 +70,20 @@ export const allUserReducer = createReducer(initialState, {
   allUserSuccess: (state, action) => {
     state.loading = false;
     state.users = action.payload;
-    state.done = true;
   },
   allUserFailure: (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
+  },
+  followUserRequest: (state) => {
+    state.loading = true;
+  },
+  followUserSuccess: (state, action) => {
+    state.loading = false;
+    state.message = action.payload;
+    state.done = true;
+  },
+  followUserFailure: (state, action) => {
     state.loading = false;
     state.error = action.payload;
     state.done = false;
@@ -84,44 +95,31 @@ export const allUserReducer = createReducer(initialState, {
     state.error = null;
   },
 });
-export const getUserReducer = createReducer(initialState, {
-  getUserRequest: (state) => {
+export const myUserReducer = createReducer(initialState, {
+  profileRequest: (state) => {
     state.loading = true;
   },
-  getUserSuccess: (state, action) => {
+  profileSuccess: (state, action) => {
     state.loading = false;
     state.user = action.payload;
   },
-  getUserFailure: (state, action) => {
+  profileFailure: (state, action) => {
     state.loading = false;
     state.error = action.payload;
   },
-  clearErrors: (state) => {
-    state.error = null;
-  },
-});
-export const followUserReducer = createReducer(initialState, {
-  followUserRequest: (state) => {
+  updatePasswordRequest: (state) => {
     state.loading = true;
   },
-  followUserSuccess: (state, action) => {
+  updatePasswordSuccess: (state, action) => {
     state.loading = false;
-    state.user = action.payload;
+    state.message = action.payload;
     state.done = true;
   },
-  followUserFailure: (state, action) => {
+  updatePasswordFailure: (state, action) => {
     state.loading = false;
     state.error = action.payload;
-    state.done = true;
+    state.done = false;
   },
-  clearDone: (state) => {
-    state.done = null;
-  },
-  clearErrors: (state) => {
-    state.error = null;
-  },
-});
-export const updateUserReducer = createReducer(initialState, {
   updateUserRequest: (state) => {
     state.loading = true;
   },
@@ -135,31 +133,7 @@ export const updateUserReducer = createReducer(initialState, {
     state.error = action.payload;
     state.done = true;
   },
-  clearDone: (state) => {
-    state.done = null;
-  },
-  clearErrors: (state) => {
-    state.error = null;
-  },
-});
 
-export const updatePasswordReducer = createReducer(initialState, {
-  updatePasswordRequest: (state) => {
-    state.loading = true;
-  },
-  updatePasswordSuccess: (state, action) => {
-    state.loading = false;
-    state.message = action.payload;
-    state.done = true;
-  },
-  updatePasswordFailure: (state, action) => {
-    state.loading = false;
-    state.error = action.payload;
-    state.done = true;
-  },
-  clearDone: (state) => {
-    state.done = null;
-  },
   clearErrors: (state) => {
     state.error = null;
   },

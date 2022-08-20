@@ -9,18 +9,17 @@ import { toast } from "react-toastify";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch();
 
-  const { error: loginError } = useSelector((state) => state.user);
+  const { error: userError } = useSelector((state) => state.user);
 
   useEffect(() => {
-    if (loginError && loginError !== "Please login first") {
-      toast.error(loginError, ErrorNotification);
+    if (userError && userError !== "Please login first") {
+      toast.error(userError, ErrorNotification);
       dispatch({ type: "clearErrors" });
     }
-  }, [loginError]);
+  }, [dispatch, userError]);
 
   return (
     <>
@@ -40,7 +39,12 @@ export default function Login() {
                     <form
                       onSubmit={(e) => {
                         e.preventDefault();
-                        dispatch(loginUser(email, password));
+                        password.length < 8
+                          ? toast.error(
+                              "Password Must Be At Least 8 Characters",
+                              ErrorNotification
+                            )
+                          : dispatch(loginUser(email, password));
                       }}
                     >
                       <div className="form-floating mb-3">

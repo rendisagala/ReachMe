@@ -14,7 +14,6 @@ import {
 import {
   ErrorNotification,
   SuccessNotification,
-  resizeFile,
   InfoNotification,
 } from "../../Utils/Utils";
 import { toast } from "react-toastify";
@@ -25,70 +24,75 @@ function Feed() {
   const [comment, setComment] = useState("");
   const { user } = useSelector((state) => state.user);
   const { posts: allPost } = useSelector((state) => state.allPost);
-  const { error: postAddedError } = useSelector((state) => state.addPost);
-  const { done: postAdded } = useSelector((state) => state.addPost);
-  const { done: postLiked } = useSelector((state) => state.addLikes);
-  const { done: commentAdded, error: commentError } = useSelector(
-    (state) => state.addComment
-  );
-  const { done: postDeleted } = useSelector((state) => state.deletePost);
+  const {
+    message: myPostMessage,
+    error: myPostError,
+    done: myPostDone,
+  } = useSelector((state) => state.myPost);
+  const {
+    message: likesCommentMessage,
+    error: likesCommentError,
+    done: likesCommentDone,
+  } = useSelector((state) => state.likesAndComment);
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllPosts());
   }, [
     dispatch,
-    postAdded,
-    postAddedError,
-    postLiked,
-    commentAdded,
-    commentError,
-    postDeleted,
+    myPostError,
+    likesCommentError,
+    likesCommentDone,
+    likesCommentMessage,
+    myPostMessage,
+    myPostError,
+    myPostDone,
   ]);
 
   useEffect(() => {
-    if (postAddedError) {
-      toast.error(postAddedError, ErrorNotification);
+    if (myPostDone === false) {
+      toast.error(myPostError, ErrorNotification);
       dispatch({ type: "clearErrors" });
     }
-    if (postAdded === true) {
-      toast.success("Post Uploaded", SuccessNotification);
+    if (myPostDone === true) {
+      toast.success(myPostMessage, SuccessNotification);
       dispatch({ type: "clearDone" });
       setCaption("");
       setImg();
     }
-    if (postLiked === true) {
-      toast.success(postLiked, SuccessNotification);
-      dispatch({ type: "clearDone" });
-    }
-    if (commentAdded === true) {
-      toast.success("Comment Posted", SuccessNotification);
-      dispatch({ type: "clearDone" });
-    }
-    if (commentError) {
-      toast.error(commentError, ErrorNotification);
+    if (likesCommentDone === false) {
+      toast.error(likesCommentError, ErrorNotification);
       dispatch({ type: "clearErrors" });
     }
-    if (postDeleted) {
-      toast.info("Post Deleted", InfoNotification);
+    if (
+      likesCommentDone === true &&
+      likesCommentMessage !== "Post Liked" &&
+      likesCommentMessage !== "Post Unliked"
+    ) {
+      toast.success(likesCommentMessage, SuccessNotification);
       dispatch({ type: "clearDone" });
     }
   }, [
     dispatch,
-    postAddedError,
-    postAdded,
-    postLiked,
-    commentAdded,
-    commentError,
-    postDeleted,
+    myPostError,
+    likesCommentError,
+    likesCommentDone,
+    likesCommentMessage,
+    myPostMessage,
+    myPostError,
+    myPostDone,
   ]);
 
-  const onImageChange = async (e) => {
+  const onImageChange = (e) => {
     const file = e.target.files[0];
-    const image = await resizeFile(file);
-    setImg(image);
+    const Reader = new FileReader();
+    Reader.readAsDataURL(file);
+    Reader.onload = () => {
+      if (Reader.readyState === 2) {
+        setImg(Reader.result);
+      }
+    };
   };
-
   return (
     <>
       <div className="row d-flex ">
@@ -118,6 +122,7 @@ function Feed() {
                       <input
                         type="file"
                         id="upload"
+                        accept="image/*"
                         style={{ display: "none" }}
                         onChange={onImageChange}
                       />
@@ -294,7 +299,10 @@ function Feed() {
                                 </form>
                                 {data.comments.map((res, index) => {
                                   return (
-                                    <div className="comment-section border ">
+                                    <div
+                                      className="comment-section border "
+                                      key={index}
+                                    >
                                       <p>{`"${res.comment}"`}</p>
 
                                       <div className="d-flex justify-content-between">

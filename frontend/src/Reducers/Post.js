@@ -30,35 +30,35 @@ export const myPostReducer = createReducer(initialState, {
   myPostSuccess: (state, action) => {
     state.loading = false;
     state.posts = action.payload;
-    state.done = true;
   },
   myPostFailure: (state, action) => {
     state.loading = false;
     state.error = action.payload;
-    state.done = false;
   },
-  clearDone: (state) => {
-    state.done = false;
-  },
-  clearErrors: (state) => {
-    state.error = null;
-  },
-});
-
-export const addPostReducer = createReducer(initialState, {
   addPostRequest: (state) => {
     state.loading = true;
   },
   addPostSuccess: (state, action) => {
     state.loading = false;
-    state.posts = action.payload;
-    state.postAdded = true;
+    state.message = action.payload;
     state.done = true;
   },
   addPostFailure: (state, action) => {
     state.loading = false;
     state.error = action.payload;
-    state.postAdded = false;
+    state.done = false;
+  },
+  deletePostRequest: (state) => {
+    state.loading = true;
+  },
+  deletePostSuccess: (state, action) => {
+    state.loading = false;
+    state.message = action.payload;
+    state.done = true;
+  },
+  deletePostFailure: (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
     state.done = false;
   },
   clearDone: (state) => {
@@ -68,14 +68,14 @@ export const addPostReducer = createReducer(initialState, {
     state.error = null;
   },
 });
-export const addLikesReducer = createReducer(initialState, {
+
+export const likesAndCommentReducer = createReducer(initialState, {
   addLikesRequest: (state) => {
     state.loading = true;
   },
   addLikesSuccess: (state, action) => {
     state.loading = false;
-    state.posts = action.payload;
-
+    state.message = action.payload;
     state.done = true;
   },
   addLikesFailure: (state, action) => {
@@ -83,46 +83,15 @@ export const addLikesReducer = createReducer(initialState, {
     state.error = action.payload;
     state.done = false;
   },
-  clearDone: (state) => {
-    state.done = false;
-  },
-  clearErrors: (state) => {
-    state.error = null;
-  },
-});
-export const addCommentReducer = createReducer(initialState, {
   addCommentRequest: (state) => {
     state.loading = true;
   },
   addCommentSuccess: (state, action) => {
     state.loading = false;
-    state.posts = action.payload;
-
+    state.message = action.payload;
     state.done = true;
   },
   addCommentFailure: (state, action) => {
-    state.loading = false;
-    state.error = action.payload;
-    state.done = false;
-  },
-  clearDone: (state) => {
-    state.done = false;
-  },
-  clearErrors: (state) => {
-    state.error = null;
-  },
-});
-export const deletePostReducer = createReducer(initialState, {
-  deletePostRequest: (state) => {
-    state.loading = true;
-  },
-  deletePostSuccess: (state, action) => {
-    state.loading = false;
-    state.posts = action.payload;
-
-    state.done = true;
-  },
-  deletePostFailure: (state, action) => {
     state.loading = false;
     state.error = action.payload;
     state.done = false;

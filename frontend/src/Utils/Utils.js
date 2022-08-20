@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Resizer from "react-image-file-resizer";
 
 export const proxy = "http://localhost:5000/api/v1";
 
@@ -36,18 +35,13 @@ export const InfoNotification = {
   theme: "colored",
 };
 
-export const resizeFile = (file) =>
-  new Promise((resolve) => {
-    Resizer.imageFileResizer(
-      file,
-      900,
-      900,
-      "JPEG",
-      100,
-      0,
-      (uri) => {
-        resolve(uri);
-      },
-      "base64"
-    );
-  });
+const onImageChange = (e) => {
+  const file = e.target.files[0];
+  const Reader = new FileReader();
+  Reader.readAsDataURL(file);
+  Reader.onload = () => {
+    if (Reader.readyState === 2) {
+      return Reader.result;
+    }
+  };
+};
