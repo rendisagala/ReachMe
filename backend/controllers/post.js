@@ -112,6 +112,20 @@ exports.getPostOfFollowing = [
   },
 ];
 
+exports.getPostOfLiked = [
+  async (req, res) => {
+    try {
+      const user = await User.findById(req.user._id);
+      const posts = await Post.find({
+        likes: { $in: user._id },
+      }).populate("author likes comments.user");
+      return res.status(200).json({ success: true, posts });
+    } catch (error) {
+      return res.status(500).json({ success: false, message: error.message });
+    }
+  },
+];
+
 exports.updateCaption = [
   async (req, res) => {
     try {

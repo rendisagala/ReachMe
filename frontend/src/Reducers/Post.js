@@ -23,6 +23,28 @@ export const allPostReducer = createReducer(initialState, {
   },
 });
 
+export const likedPostReducer = createReducer(initialState, {
+  likedPostRequest: (state) => {
+    state.loading = true;
+  },
+  likedPostSuccess: (state, action) => {
+    state.loading = false;
+    state.posts = action.payload;
+    state.done = true;
+  },
+  likedPostFailure: (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
+    state.done = false;
+  },
+  clearDone: (state) => {
+    state.done = false;
+  },
+  clearErrors: (state) => {
+    state.error = null;
+  },
+});
+
 export const myPostReducer = createReducer(initialState, {
   myPostRequest: (state) => {
     state.loading = true;

@@ -102,7 +102,11 @@ function Account() {
       toast.error(likesCommentError, ErrorNotification);
       dispatch({ type: "clearErrors" });
     }
-    if (likesCommentDone === true) {
+    if (
+      likesCommentDone === true &&
+      likesCommentMessage !== "Post Liked" &&
+      likesCommentMessage !== "Post Unliked"
+    ) {
       toast.success(likesCommentMessage, SuccessNotification);
       dispatch({ type: "clearDone" });
     }

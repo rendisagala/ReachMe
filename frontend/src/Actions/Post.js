@@ -13,10 +13,25 @@ export const getAllPosts = () => async (dispatch) => {
   }
 };
 
+export const getLikedPosts = () => async (dispatch) => {
+  try {
+    dispatch({ type: "likedPostRequest" });
+    const data = await axios.get(`${proxy}/posts/liked`, {
+      withCredentials: true,
+    });
+    dispatch({ type: "likedPostSuccess", payload: data.data.posts });
+  } catch (error) {
+    dispatch({
+      type: "likedPostFailure",
+      payload: error.response.data.message,
+    });
+  }
+};
+
 export const getMyPosts = () => async (dispatch) => {
   try {
     dispatch({ type: "myPostRequest" });
-    const data = await axios.get(`${proxy}/myposts`, {
+    const data = await axios.get(`${proxy}/posts/me`, {
       withCredentials: true,
     });
     dispatch({ type: "myPostSuccess", payload: data.data.posts });
