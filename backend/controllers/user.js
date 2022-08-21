@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Post = require("../models/Post");
+const cloudinary = require("cloudinary");
 
 exports.register = [
   async (req, res) => {
@@ -16,14 +17,18 @@ exports.register = [
           success: false,
         });
       }
-
+      const imageCloud = await cloudinary.v2.uploader.upload(img, {
+        folder: "users",
+      });
       user = await User.create({
         name,
         email,
         password,
-        img,
+        img: imageCloud.secure_url,
       });
-      return res.status(201).json({ success: true, user });
+      return res
+        .status(201)
+        .json({ success: true, message: `User Registered` });
     } catch (error) {
       return res.status(500).json({
         message: error.message,
@@ -74,7 +79,6 @@ exports.login = [
         .json({
           success: true,
           message: `User logged in (${email})`,
-          user,
         });
     } catch (error) {
       return res.status(500).json({

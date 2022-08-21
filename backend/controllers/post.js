@@ -1,5 +1,6 @@
 const Post = require("../models/Post");
 const User = require("../models/User");
+const cloudinary = require("cloudinary");
 
 exports.createPost = [
   async (req, res) => {
@@ -18,9 +19,13 @@ exports.createPost = [
           success: false,
           message: "You Can Only Send 1 Post For Each Day",
         });
+
+      const imageCloud = await cloudinary.v2.uploader.upload(req.body.img, {
+        folder: "posts",
+      });
       const newPostData = {
         caption: req.body.caption,
-        img: req.body.img,
+        img: imageCloud.secure_url,
         author: req.user._id,
       };
       if (req.body.caption.length < 1)
