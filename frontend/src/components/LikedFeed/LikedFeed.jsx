@@ -58,7 +58,7 @@ function LikedFeed() {
     <>
       <div className="row d-flex justify-content-center p-5">
         {" "}
-        {posts ? (
+        {posts?.length > 0 ? (
           <>
             {" "}
             <h1 className="lead p-5 col-8 display-3">
@@ -190,6 +190,7 @@ function LikedFeed() {
                         onSubmit={(e) => {
                           e.preventDefault();
                           dispatch(addComment(data._id, comment));
+                          setComment();
                         }}
                       >
                         <input

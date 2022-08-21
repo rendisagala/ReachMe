@@ -12,6 +12,10 @@ export default function NavigationBar() {
 
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(loadUser());
+  }, [dispatch]);
+
   return (
     <>
       <div className="navigation">
@@ -72,19 +76,21 @@ export default function NavigationBar() {
                 data-mdb-toggle="dropdown"
                 aria-expanded="false"
               >
-                <img
-                  src={user.img}
-                  className="rounded-circle user-profile"
-                  height="25"
-                  alt={user.name}
-                  title={user.name}
-                  style={
-                    tab === "/profile"
-                      ? { outline: " blue solid 2px   " }
-                      : { outline: " #000 solid 1px   " }
-                  }
-                  loading="lazy"
-                />
+                {user && (
+                  <img
+                    src={user.img}
+                    className="rounded-circle user-profile"
+                    height="25"
+                    alt={user.name}
+                    title={user.name}
+                    style={
+                      tab === "/profile"
+                        ? { outline: " blue solid 2px   " }
+                        : { outline: " #000 solid 1px   " }
+                    }
+                    loading="lazy"
+                  />
+                )}
               </div>
             </div>
           </Link>

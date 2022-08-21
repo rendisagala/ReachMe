@@ -17,7 +17,7 @@ function App() {
 
   useEffect(() => {
     dispatch(loadUser());
-  }, [dispatch, isAuthenticated]);
+  }, [dispatch]);
 
   return (
     <>

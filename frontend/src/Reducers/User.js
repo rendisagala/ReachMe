@@ -58,6 +58,9 @@ export const userReducer = createReducer(initialState, {
     state.error = action.payload;
     state.done = true;
   },
+  clearDone: (state) => {
+    state.done = null;
+  },
   clearErrors: (state) => {
     state.error = null;
   },

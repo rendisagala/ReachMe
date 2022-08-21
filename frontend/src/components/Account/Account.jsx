@@ -72,13 +72,10 @@ function Account() {
     dispatch,
     likesCommentError,
     likesCommentDone,
-    likesCommentMessage,
-    myPostMessage,
     myPostError,
     myPostDone,
     myUserError,
     myUserDone,
-    myUserMessage,
   ]);
 
   useEffect(() => {
@@ -130,13 +127,10 @@ function Account() {
     dispatch,
     likesCommentError,
     likesCommentDone,
-    likesCommentMessage,
-    myPostMessage,
     myPostError,
     myPostDone,
     myUserError,
     myUserDone,
-    myUserMessage,
   ]);
 
   return (
@@ -516,6 +510,7 @@ function Account() {
                         onSubmit={(e) => {
                           e.preventDefault();
                           dispatch(addComment(data._id, comment));
+                          setComment();
                         }}
                       >
                         <input

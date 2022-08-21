@@ -284,6 +284,7 @@ function Feed() {
                                   onSubmit={(e) => {
                                     e.preventDefault();
                                     dispatch(addComment(data._id, comment));
+                                    setComment();
                                   }}
                                 >
                                   <input

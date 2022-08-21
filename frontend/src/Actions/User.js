@@ -14,7 +14,7 @@ export const loginUser = (email, password) => async (dispatch) => {
       .catch((error) =>
         dispatch({ type: "LoginFailure", payload: error.response.data.message })
       );
-    dispatch({ type: "LoginSuccess", payload: data.data.user });
+    dispatch({ type: "LoginSuccess", payload: data.data.message });
   } catch (error) {}
 };
 export const registerUser =
@@ -34,7 +34,7 @@ export const registerUser =
             payload: error.response.data.message,
           })
         );
-      dispatch({ type: "RegisterSuccess", payload: data.data.user });
+      dispatch({ type: "RegisterSuccess", payload: data.data.message });
     } catch (error) {}
   };
 
