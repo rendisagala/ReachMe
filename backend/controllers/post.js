@@ -19,13 +19,15 @@ exports.createPost = [
           success: false,
           message: "You Can Only Send 1 Post For Each Day",
         });
-
-      const imageCloud = await cloudinary.v2.uploader.upload(req.body.img, {
-        folder: "posts",
-      });
+      let imageCloud;
+      if (req.body.img) {
+        imageCloud = await cloudinary.v2.uploader.upload(req.body.img, {
+          folder: "posts",
+        });
+      }
       const newPostData = {
         caption: req.body.caption,
-        img: imageCloud.secure_url,
+        img: imageCloud && imageCloud.secure_url,
         author: req.user._id,
       };
       if (req.body.caption.length < 1)
