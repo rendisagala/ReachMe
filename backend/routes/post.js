@@ -11,6 +11,7 @@ router
   .put(auth.isAuth, post.updateCaption)
   .delete(auth.isAuth, post.deletePost);
 router.route("/posts/me").get(auth.isAuth, post.getMyPost);
+router.route("/user/posts/:id").get(auth.isAuth, post.getUserPost);
 router.route("/posts").get(auth.isAuth, post.getAllPost);
 router.route("/posts/liked").get(auth.isAuth, post.getPostOfLiked);
 router.route("/post/following").get(auth.isAuth, post.getPostOfFollowing);

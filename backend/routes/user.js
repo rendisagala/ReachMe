@@ -15,5 +15,6 @@ router.route("/users").get(auth.isAuth, user.allUser);
 router.route("/follow/:id").post(auth.isAuth, user.followAndUnfollow);
 router.route("/update/password").put(auth.isAuth, user.updatePassword);
 router.route("/update/user").put(auth.isAuth, user.updateUser);
+router.route("/update/user/:id").put(auth.isAuth, user.updateUserById);
 
 module.exports = router;

@@ -234,8 +234,37 @@ exports.updateUser = [
     try {
       const user = await User.findById(req.user._id);
       const { name, img, email } = req.body;
+      let imageCloud;
+      if (req.body.img)
+        imageCloud = await cloudinary.v2.uploader.upload(img, {
+          folder: "users",
+        });
       if (name) user.name = name;
-      if (img) user.img = img;
+      if (img) user.img = imageCloud.secure_url;
+      if (email) user.email = email;
+      await user.save();
+      return res.status(200).json({ success: true, message: "User Updated" });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  },
+];
+
+exports.updateUserById = [
+  async (req, res) => {
+    try {
+      const user = await User.findById(req.params._id);
+      const { name, img, email } = req.body;
+      let imageCloud;
+      if (req.body.img)
+        imageCloud = await cloudinary.v2.uploader.upload(img, {
+          folder: "users",
+        });
+      if (name) user.name = name;
+      if (img) user.img = imageCloud.secure_url;
       if (email) user.email = email;
       await user.save();
       return res.status(200).json({ success: true, message: "User Updated" });
