@@ -2,10 +2,18 @@ const User = require("../models/User");
 const Post = require("../models/Post");
 const cloudinary = require("cloudinary");
 
+var emailFilter =
+  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 exports.register = [
   async (req, res) => {
     try {
       const { name, email, password, img, reType } = req.body;
+      if (!emailFilter.test(email))
+        return res.status(400).json({
+          success: false,
+          message: "Please enter valid email",
+        });
       let user = await User.findOne({ email });
       if (!reType || reType !== password)
         return res
@@ -239,33 +247,16 @@ exports.updateUser = [
         imageCloud = await cloudinary.v2.uploader.upload(img, {
           folder: "users",
         });
-      if (name) user.name = name;
-      if (img) user.img = imageCloud.secure_url;
-      if (email) user.email = email;
-      await user.save();
-      return res.status(200).json({ success: true, message: "User Updated" });
-    } catch (error) {
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
-    }
-  },
-];
-
-exports.updateUserById = [
-  async (req, res) => {
-    try {
-      const user = await User.findById(req.params._id);
-      const { name, img, email } = req.body;
-      let imageCloud;
-      if (req.body.img)
-        imageCloud = await cloudinary.v2.uploader.upload(img, {
-          folder: "users",
-        });
-      if (name) user.name = name;
-      if (img) user.img = imageCloud.secure_url;
-      if (email) user.email = email;
+      name && (user.name = name);
+      img && (user.img = imageCloud.secure_url);
+      if (email) {
+        if (!emailFilter.test(email))
+          return res.status(400).json({
+            success: false,
+            message: "Please enter valid email",
+          });
+        user.email = email;
+      }
       await user.save();
       return res.status(200).json({ success: true, message: "User Updated" });
     } catch (error) {
