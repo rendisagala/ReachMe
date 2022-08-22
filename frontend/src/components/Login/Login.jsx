@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../Actions/User";
 import { ErrorNotification, SuccessNotification } from "../../Utils/Utils";
 import { toast } from "react-toastify";
+import backgroundImage from "../../assets/image/background.png";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -25,17 +26,30 @@ export default function Login() {
     <>
       <div className="container-fluid ps-md-0">
         <div className="row g-0">
-          <div className="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+          <div
+            className="d-none d-md-flex col-md-4 col-lg-6 bg-image"
+            style={{ backgroundImage: `url(${backgroundImage})` }}
+          >
+            <div className="bg-text mx-auto my-auto ">
+              <div className="logo text-lg-center">
+                <div className="no-underline text-white">Reachme</div>
+              </div>
+              <span className="text-white lead  fw-semibold">
+                Connect to People.
+              </span>
+            </div>
+          </div>
           <div className="col-md-8 col-lg-6">
             <div className="login d-flex align-items-center py-5">
               <div className="container">
                 <div className="row">
                   <div className="col-md-9 col-lg-8 mx-auto">
                     <div className="logo text-lg-center">
-                      <a href="/">
+                      <Link to="/">
                         <div className="no-underline">Reachme</div>
-                      </a>
+                      </Link>
                     </div>
+
                     <form
                       onSubmit={(e) => {
                         e.preventDefault();

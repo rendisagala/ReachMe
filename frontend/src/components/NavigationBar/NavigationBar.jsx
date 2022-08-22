@@ -24,7 +24,6 @@ export default function NavigationBar() {
             <div className="no-underline">Reachme</div>
           </Link>
         </div>
-
         <div className="navigation-search-container">
           <i className="fa fa-search"></i>
           <input className="search-field" type="text" placeholder="Search" />

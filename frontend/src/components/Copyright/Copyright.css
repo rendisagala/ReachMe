@@ -1,0 +1,6 @@
+.copyright a {
+  font-weight: bold !important;
+}
+.copyright a:hover {
+  text-decoration: underline !important;
+}

@@ -11,6 +11,7 @@ import { ToastContainer } from "react-toastify";
 import Profile from "./pages/Profile";
 import User from "./pages/User";
 import People from "./pages/People";
+import Copyright from "./components/Copyright/Copyright";
 
 function App() {
   const dispatch = useDispatch();
@@ -50,6 +51,7 @@ function App() {
             element={isAuthenticated ? <User /> : <SignIn />}
           />
         </Routes>
+        {isAuthenticated && <Copyright />}
         <ToastContainer limit={3} />
       </BrowserRouter>
     </>
