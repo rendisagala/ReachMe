@@ -50,7 +50,7 @@ function Feed() {
   ]);
 
   useEffect(() => {
-    if (myPostDone === false) {
+    if (myPostError) {
       toast.error(myPostError, ErrorNotification);
       dispatch({ type: "clearErrors" });
     }
@@ -60,7 +60,7 @@ function Feed() {
       setCaption("");
       setImg();
     }
-    if (likesCommentDone === false) {
+    if (likesCommentError) {
       toast.error(likesCommentError, ErrorNotification);
       dispatch({ type: "clearErrors" });
     }

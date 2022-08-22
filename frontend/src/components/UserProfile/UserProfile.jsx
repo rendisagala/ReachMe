@@ -53,7 +53,7 @@ export default function UserProfile() {
   ]);
 
   useEffect(() => {
-    if (likesCommentDone === false) {
+    if (likesCommentError) {
       toast.error(likesCommentError, ErrorNotification);
       dispatch({ type: "clearErrors" });
     }
@@ -68,7 +68,7 @@ export default function UserProfile() {
       toast.success(allUserMessage, SuccessNotification);
       dispatch({ type: "clearDone" });
     }
-    if (allUserDone === false) {
+    if (allUserError) {
       toast.error(allUserError, ErrorNotification);
       dispatch({ type: "clearErrors" });
     }

@@ -27,7 +27,7 @@ export default function PeopleList() {
       toast.success(allUserMessage, SuccessNotification);
       dispatch({ type: "clearDone" });
     }
-    if (allUserDone === false) {
+    if (allUserError) {
       toast.error(allUserError, ErrorNotification);
       dispatch({ type: "clearErrors" });
     }

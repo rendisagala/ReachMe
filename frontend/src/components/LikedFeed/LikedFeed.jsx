@@ -40,7 +40,7 @@ function LikedFeed() {
   }, [dispatch, likesCommentError, likesCommentDone, likesCommentMessage]);
 
   useEffect(() => {
-    if (likesCommentDone === false) {
+    if (likesCommentError) {
       toast.error(likesCommentError, ErrorNotification);
       dispatch({ type: "clearErrors" });
     }

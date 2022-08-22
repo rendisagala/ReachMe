@@ -79,7 +79,7 @@ function Account() {
   ]);
 
   useEffect(() => {
-    if (myPostDone === false) {
+    if (myPostError) {
       toast.error(myPostError, ErrorNotification);
       dispatch({ type: "clearErrors" });
     }
@@ -95,7 +95,7 @@ function Account() {
       setNewPassword();
       setRetype();
     }
-    if (likesCommentDone === false) {
+    if (likesCommentError) {
       toast.error(likesCommentError, ErrorNotification);
       dispatch({ type: "clearErrors" });
     }
@@ -117,7 +117,7 @@ function Account() {
       setNewPassword();
       setRetype();
     }
-    if (myUserDone === false) {
+    if (myUserError) {
       toast.error(myUserError, ErrorNotification);
       dispatch({ type: "clearErrors" });
     }
