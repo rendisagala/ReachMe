@@ -17,6 +17,7 @@ export const loginUser = (email, password) => async (dispatch) => {
     dispatch({ type: "LoginSuccess", payload: data.data.message });
   } catch (error) {}
 };
+
 export const registerUser =
   (name, email, password, reType, img) => async (dispatch) => {
     try {
@@ -129,6 +130,7 @@ export const getAllUser = () => async (dispatch) => {
     dispatch({ type: "allUserSuccess", payload: data.data.users });
   } catch (error) {}
 };
+
 export const getUser = (id) => async (dispatch) => {
   try {
     dispatch({ type: "myUserRequest" });
@@ -146,6 +148,7 @@ export const getUser = (id) => async (dispatch) => {
     dispatch({ type: "myUserSuccess", payload: data.data.user });
   } catch (error) {}
 };
+
 export const followUser = (id) => async (dispatch) => {
   try {
     dispatch({ type: "followUserRequest" });
@@ -163,5 +166,22 @@ export const followUser = (id) => async (dispatch) => {
       );
 
     dispatch({ type: "followUserSuccess", payload: data.data.message });
+  } catch (error) {}
+};
+
+export const getUserProfile = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: "userProfileRequest" });
+    const data = await axios
+      .get(`${proxy}/user/${id}`, {
+        withCredentials: true,
+      })
+      .catch((error) =>
+        dispatch({
+          type: "userProfileFailure",
+          payload: error.response.data.message,
+        })
+      );
+    dispatch({ type: "userProfileSuccess", payload: data.data.user });
   } catch (error) {}
 };

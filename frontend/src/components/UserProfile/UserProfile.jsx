@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from "react";
-import "./Account.css";
+import React, { useEffect, useState } from "react";
+import "./UserProfile.css";
 import Loading from "../Loading/Loading";
-import { Link } from "react-router-dom";
+import { Link, useParams, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addPost,
-  getAllPosts,
   addLikes,
   addComment,
   deletePost,
-  getMyPosts,
+  getUserPosts,
 } from "../../Actions/Post";
 import {
   ErrorNotification,
@@ -17,84 +15,44 @@ import {
   InfoNotification,
 } from "../../Utils/Utils";
 import { toast } from "react-toastify";
-import { loadUser, updatePassword, updateUser } from "../../Actions/User";
+import { loadUser, getUserProfile, followUser } from "../../Actions/User";
 
-function Account() {
-  const [toggleEdit, setToggleEdit] = useState(false);
-  const [togglePassword, setTogglePassword] = useState(false);
-  const [oldPassword, setOldPassword] = useState();
-  const [newPassword, setNewPassword] = useState();
-  const [reType, setRetype] = useState();
-  const [caption, setCaption] = useState("");
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [editedImg, setEditedImg] = useState();
+export default function UserProfile() {
   const [img, setImg] = useState();
   const [comment, setComment] = useState("");
 
   const dispatch = useDispatch();
+  const params = useParams();
 
-  const { user } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.userProfile);
+  const { user: loggedInUser } = useSelector((state) => state.user);
   const {
-    message: myUserMessage,
-    error: myUserError,
-    done: myUserDone,
-  } = useSelector((state) => state.myUser);
+    message: allUserMessage,
+    error: allUserError,
+    done: allUserDone,
+  } = useSelector((state) => state.allUser);
 
-  const {
-    posts,
-    message: myPostMessage,
-    error: myPostError,
-    done: myPostDone,
-  } = useSelector((state) => state.myPost);
+  const { posts } = useSelector((state) => state.userPost);
   const {
     message: likesCommentMessage,
     error: likesCommentError,
     done: likesCommentDone,
   } = useSelector((state) => state.likesAndComment);
 
-  const onImageChange = (e) => {
-    e.preventDefault();
-    const file = e.target.files[0];
-    const Reader = new FileReader();
-    Reader.readAsDataURL(file);
-    Reader.onload = () => {
-      if (Reader.readyState === 2) {
-        !img || editedImg ? setImg(Reader.result) : setEditedImg(Reader.result);
-      }
-    };
-  };
-
   useEffect(() => {
     dispatch(loadUser());
-    dispatch(getMyPosts());
+    dispatch(getUserProfile(params.id));
+    dispatch(getUserPosts(params.id));
   }, [
     dispatch,
     likesCommentError,
     likesCommentDone,
-    myPostError,
-    myPostDone,
-    myUserError,
-    myUserDone,
+    allUserError,
+    allUserDone,
+    allUserMessage,
   ]);
 
   useEffect(() => {
-    if (myPostDone === false) {
-      toast.error(myPostError, ErrorNotification);
-      dispatch({ type: "clearErrors" });
-    }
-    if (myPostDone === true) {
-      toast.success(myPostMessage, SuccessNotification);
-      dispatch({ type: "clearDone" });
-      setCaption("");
-      setImg();
-      setName();
-      setEmail();
-      setEditedImg();
-      setOldPassword();
-      setNewPassword();
-      setRetype();
-    }
     if (likesCommentDone === false) {
       toast.error(likesCommentError, ErrorNotification);
       dispatch({ type: "clearErrors" });
@@ -105,170 +63,71 @@ function Account() {
         toast.success(likesCommentMessage, SuccessNotification);
       dispatch({ type: "clearDone" });
     }
-    if (myUserDone === true) {
-      toast.success(myUserMessage, SuccessNotification);
+
+    if (allUserDone === true) {
+      toast.success(allUserMessage, SuccessNotification);
       dispatch({ type: "clearDone" });
-      setCaption("");
-      setImg();
-      setName();
-      setEmail();
-      setEditedImg();
-      setOldPassword();
-      setNewPassword();
-      setRetype();
     }
-    if (myUserDone === false) {
-      toast.error(myUserError, ErrorNotification);
+    if (allUserDone === false) {
+      toast.error(allUserError, ErrorNotification);
       dispatch({ type: "clearErrors" });
     }
   }, [
     dispatch,
     likesCommentError,
     likesCommentDone,
-    myPostError,
-    myPostDone,
-    myUserError,
-    myUserDone,
+    allUserError,
+    allUserDone,
+    allUserMessage,
   ]);
+
+  if (params.id === loggedInUser._id) return <Navigate to="/profile" />;
 
   return (
     <>
+      {" "}
       <div className=" main pt-5 profile-card mt-3">
         <div className="row">
           <div className="col-sm-6 picture">
             <center>
-              {toggleEdit ? (
-                <>
-                  {" "}
-                  <img
-                    className="circle responsive-img rounded rounded-circle border border-dark"
-                    src={!editedImg ? user.img : editedImg}
-                  />
-                  <label htmlFor="upload" className="btn">
-                    <i className="fa fa-image text-black-50"></i>
-
-                    <input
-                      type="file"
-                      accept="image/*"
-                      id="upload"
-                      style={{ display: "none" }}
-                      onChange={onImageChange}
-                    />
-                  </label>
-                </>
-              ) : (
-                <img
-                  className="circle responsive-img rounded rounded-circle  border border-dark"
-                  src={user.img}
-                />
-              )}
+              <img
+                className="circle responsive-img rounded rounded-circle  border border-dark"
+                src={user?.img}
+              />
             </center>
           </div>
           <div className="col-sm-6 details">
             <center>
               <p className="name">
-                {toggleEdit ? (
-                  <>
-                    {" "}
-                    <b>{!name ? user.name : name}</b>
-                    <input
-                      type="text"
-                      name="name"
-                      placeholder="edit name"
-                      className="form-control"
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </>
-                ) : (
-                  <b>{user.name}</b>
-                )}
+                <b>{user?.name}</b>
               </p>
             </center>
             <center>
-              {toggleEdit ? (
-                <>
-                  <i>{!email ? user.email : email}</i>
-                  <input
-                    type="email"
-                    name="name"
-                    placeholder="edit email"
-                    className="form-control"
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </>
-              ) : (
-                <i className="time">{user.email}</i>
-              )}
+              <i className="time">{user?.email}</i>
             </center>
 
             <center>
               <p>
                 <button
+                  type="button"
                   className={
-                    !togglePassword ? "btn btn-dark" : "btn btn-danger"
+                    user?.followers.includes(loggedInUser._id)
+                      ? "btn btn-dark btn-outline-primary text-light"
+                      : "btn  btn-primary btn-outline-dark text-light"
                   }
-                  onClick={
-                    !togglePassword
-                      ? () => setTogglePassword((current) => !current)
-                      : () => {
-                          if (oldPassword && newPassword && reType)
-                            dispatch(
-                              updatePassword(oldPassword, newPassword, reType)
-                            );
-                          setTogglePassword((current) => !current);
-                        }
-                  }
+                  onClick={(e) => {
+                    e.preventDefault();
+                    dispatch(followUser(params.id));
+                  }}
                 >
-                  Update Password
-                </button>
-                {togglePassword && (
-                  <button
-                    title="Cancel"
-                    className="btn"
-                    onClick={() => {
-                      setOldPassword();
-                      setNewPassword();
-                      setRetype();
-                      setTogglePassword((current) => !current);
-                    }}
-                  >
-                    <i className="fa fa-ban text-black-100 text-danger"></i>
-                  </button>
-                )}
+                  {user?.followers.includes(loggedInUser._id) ? (
+                    <>Followed</>
+                  ) : (
+                    <>Follow</>
+                  )}
+                </button>{" "}
               </p>
             </center>
-            {togglePassword && (
-              <>
-                {" "}
-                <input
-                  type="text"
-                  name="Old Password"
-                  placeholder="Old Password"
-                  className="form-control password-change"
-                  onChange={(e) => setOldPassword(e.target.value)}
-                />
-                <input
-                  type="text"
-                  name="New Password"
-                  placeholder="New Password"
-                  className="form-control password-change"
-                  onChange={(e) => setNewPassword(e.target.value)}
-                />
-                <input
-                  type="text"
-                  name="Confirm New Password"
-                  placeholder="Confirm New Password"
-                  className="form-control password-change"
-                  onChange={(e) => setRetype(e.target.value)}
-                />
-              </>
-            )}
-
-            {/* <center>
-              <p>
-                <button className="btn btn-dark">Follow</button>{" "}
-              </p>
-            </center> */}
           </div>
         </div>
 
@@ -277,109 +136,28 @@ function Account() {
             <tr>
               <td>
                 <p>
-                  <b>{user.posts.length}</b>
+                  <b>{user?.posts.length}</b>
                 </p>
                 <p>Posts</p>
               </td>
               <td>
                 <p>
-                  <b>{user.followers.length}</b>
+                  <b>{user?.followers.length}</b>
                 </p>
                 <p>Followers</p>
               </td>
               <td>
                 <p>
-                  <b>{user.following.length}</b>
+                  <b>{user?.following.length}</b>
                 </p>
                 <p>Following</p>
               </td>
             </tr>
           </tbody>
         </table>
-
-        {!toggleEdit ? (
-          <button
-            className="waves-effect waves-light btn btn-dark edit "
-            onClick={() => setToggleEdit((current) => !current)}
-          >
-            Edit Profile
-          </button>
-        ) : (
-          <>
-            <button
-              className="waves-effect waves-light btn btn-danger edit "
-              onClick={() => {
-                setToggleEdit((current) => !current);
-                (name || editedImg || email) &&
-                  dispatch(updateUser(name, editedImg, email));
-              }}
-            >
-              Done
-            </button>{" "}
-            <button
-              title="Cancel"
-              className="btn"
-              onClick={() => {
-                setToggleEdit((current) => !current);
-                setOldPassword();
-                setNewPassword();
-                setRetype();
-              }}
-            >
-              <i className="fa fa-ban text-black-100 text-danger"></i>
-            </button>
-          </>
-        )}
       </div>
       {/*  */}
       <div className="row d-flex justify-content-center ">
-        <form
-          className="d-flex flex-row justify-content-between align-items-center p-2 bg-white border card border border-dark col-8"
-          onSubmit={(e) => {
-            e.preventDefault();
-            dispatch(addPost(caption, img));
-          }}
-        >
-          {" "}
-          <input
-            type="text"
-            name="post"
-            placeholder="How you doing today?"
-            onChange={(e) => setCaption(e.target.value)}
-            className="w-100 border-0 "
-          />{" "}
-          <label htmlFor="upload" className="btn">
-            <i className="fa fa-image text-black-50"></i>
-
-            <input
-              type="file"
-              id="upload"
-              accept="image/*"
-              style={{ display: "none" }}
-              onChange={onImageChange}
-            />
-          </label>
-          <button className="feed-icon px-2  bg-transparent  btn btn-light">
-            <i className="fa fa-long-arrow-up text-black-50"></i>
-          </button>{" "}
-        </form>
-        <div className="feed-image px-3 col-8">
-          {img && (
-            <button
-              className="btn btn-danger btn-sm rounded-0"
-              type="button"
-              data-toggle="tooltip"
-              data-placement="top"
-              title="Delete"
-              onClick={() => {
-                setImg();
-              }}
-            >
-              <i className="fa fa-trash"></i>
-            </button>
-          )}
-          <img className="img-fluid img-responsive" src={img} />
-        </div>
         {posts ? (
           <>
             {posts
@@ -439,7 +217,7 @@ function Account() {
                             >
                               Report
                             </button>
-                            {data.author._id === user._id && (
+                            {data.author._id === loggedInUser?._id && (
                               <button
                                 className="btn   btn-danger row time col-12"
                                 onClick={() => dispatch(deletePost(data._id))}
@@ -475,7 +253,9 @@ function Account() {
                         >
                           <i
                             className={
-                              data.likes.some((like) => like._id === user._id)
+                              data.likes.some(
+                                (like) => like._id === loggedInUser?._id
+                              )
                                 ? "fa fa-heart p-0 m-0 likes text-danger"
                                 : "fa fa-heart p-0 m-0 likes"
                             }
@@ -530,14 +310,14 @@ function Account() {
                             <div className="d-flex justify-content-between">
                               <div className="d-flex flex-row align-items-center">
                                 <img
-                                  src={res.user.img}
+                                  src={res.user?.img}
                                   alt="avatar"
                                   width="25"
                                   height="25"
                                   className="rounded rounded-circle"
                                 />
                                 <p className="small mb-0 ms-2">
-                                  {res.user.name}
+                                  {res.user?.name}
                                 </p>
                               </div>
                             </div>
@@ -550,11 +330,15 @@ function Account() {
               })}
           </>
         ) : (
-          <Loading />
+          <>
+            <h1 className="lead p-5 col-8 display-3">
+              This User Haven't Posted Anything Yet.
+            </h1>
+
+            <Loading />
+          </>
         )}
       </div>
     </>
   );
 }
-
-export default Account;

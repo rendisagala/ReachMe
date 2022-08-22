@@ -4,8 +4,14 @@ import {
   likedPostReducer,
   likesAndCommentReducer,
   myPostReducer,
+  userPostReducer,
 } from "./Reducers/Post";
-import { allUserReducer, myUserReducer, userReducer } from "./Reducers/User";
+import {
+  allUserReducer,
+  myUserReducer,
+  userProfileReducer,
+  userReducer,
+} from "./Reducers/User";
 
 const store = configureStore({
   reducer: {
@@ -16,6 +22,8 @@ const store = configureStore({
     allPost: allPostReducer,
     likedPost: likedPostReducer,
     allUser: allUserReducer,
+    userProfile: userProfileReducer,
+    userPost: userPostReducer,
   },
 });
 

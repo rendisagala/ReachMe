@@ -105,3 +105,15 @@ export const addComment = (id, comment) => async (dispatch) => {
     });
   }
 };
+
+export const getUserPosts = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: "userPostRequest" });
+    const data = await axios.get(`${proxy}/user/posts/${id}`, {
+      withCredentials: true,
+    });
+    dispatch({ type: "userPostSuccess", payload: data.data.posts });
+  } catch (error) {
+    dispatch({ type: "userPostFailure", payload: error.response.data.message });
+  }
+};

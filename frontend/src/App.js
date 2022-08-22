@@ -10,6 +10,7 @@ import SignUp from "./pages/SignUp";
 import { ToastContainer } from "react-toastify";
 import Profile from "./pages/Profile";
 import User from "./pages/User";
+import People from "./pages/People";
 
 function App() {
   const dispatch = useDispatch();
@@ -39,6 +40,10 @@ function App() {
           <Route
             path="/profile"
             element={isAuthenticated ? <Profile /> : <SignIn />}
+          />
+          <Route
+            path="/user/:id"
+            element={isAuthenticated ? <People /> : <SignIn />}
           />
           <Route
             path="/liked"

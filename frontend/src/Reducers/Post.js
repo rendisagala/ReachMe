@@ -125,3 +125,20 @@ export const likesAndCommentReducer = createReducer(initialState, {
     state.error = null;
   },
 });
+
+export const userPostReducer = createReducer(initialState, {
+  userPostRequest: (state) => {
+    state.loading = true;
+  },
+  userPostSuccess: (state, action) => {
+    state.loading = false;
+    state.posts = action.payload;
+  },
+  userPostFailure: (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
+  },
+  clearErrors: (state) => {
+    state.error = null;
+  },
+});
