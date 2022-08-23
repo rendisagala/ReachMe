@@ -12,6 +12,7 @@ import Profile from "./pages/Profile";
 import User from "./pages/User";
 import People from "./pages/People";
 import Copyright from "./components/Copyright/Copyright";
+import Error from "./components/Error/Error";
 
 function App() {
   const dispatch = useDispatch();
@@ -50,6 +51,7 @@ function App() {
             path="/liked"
             element={isAuthenticated ? <User /> : <SignIn />}
           />
+          <Route path="*" element={<Error />} />
         </Routes>
         {isAuthenticated && <Copyright />}
         <ToastContainer limit={3} />
