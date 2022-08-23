@@ -185,3 +185,20 @@ export const getUserProfile = (id) => async (dispatch) => {
     dispatch({ type: "userProfileSuccess", payload: data.data.user });
   } catch (error) {}
 };
+
+export const getSearchUser = (name) => async (dispatch) => {
+  try {
+    dispatch({ type: "searchUserRequest" });
+    const data = await axios
+      .get(`${proxy}/users/find?name=${name}`, {
+        withCredentials: true,
+      })
+      .catch((error) =>
+        dispatch({
+          type: "searchUserFailure",
+          payload: error.response.data.message,
+        })
+      );
+    dispatch({ type: "searchUserSuccess", payload: data.data.users });
+  } catch (error) {}
+};

@@ -2,19 +2,22 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./NavigationBar.css";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser, loadUser } from "../../Actions/User";
+import { logoutUser, loadUser, getSearchUser } from "../../Actions/User";
 import { ErrorNotification, SuccessNotification } from "../../Utils/Utils";
 import { toast } from "react-toastify";
 
 export default function NavigationBar() {
   const [tab, setTab] = useState(window.location.pathname);
   const { user, error } = useSelector((state) => state.user);
+  const [name, setName] = useState("");
+  const { users } = useSelector((state) => state.userProfile);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(loadUser());
-  }, [dispatch]);
+    name && dispatch(getSearchUser(name));
+  }, [dispatch, name]);
 
   return (
     <>
@@ -24,13 +27,34 @@ export default function NavigationBar() {
             <div className="no-underline">Reachme</div>
           </Link>
         </div>
-        <div className="navigation-search-container">
+        <div className="navigation-search-container navbar-form  dropdown">
           <i className="fa fa-search"></i>
-          <input className="search-field" type="text" placeholder="Search" />
-          <div className="search-container">
-            <div className="search-container-box">
-              <div className="search-results"></div>
-            </div>
+          <input
+            className="search-field"
+            type="text"
+            placeholder="Search"
+            onChange={(e) => setName(e.target.value)}
+          />
+          <div className={name ? "dropdown-content" : "d-none"}>
+            {name &&
+              users?.map((data, index) => (
+                <div className="search-result border border-1" key={index}>
+                  <Link to={`/user/${data._id}`}>
+                    <div className="col-12 mt-2">
+                      {" "}
+                      <img
+                        src={data.img}
+                        className="rounded-circle user-profile m-2"
+                        height="25"
+                        alt={data.name}
+                        title={data.name}
+                        style={{ outline: " #000 solid 1px   " }}
+                      />
+                      {data.name}
+                    </div>
+                  </Link>{" "}
+                </div>
+              ))}
           </div>
         </div>
         <div className="navigation-icons">

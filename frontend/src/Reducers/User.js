@@ -156,6 +156,19 @@ export const userProfileReducer = createReducer(initialState, {
     state.loading = false;
     state.error = action.payload;
   },
+  searchUserRequest: (state) => {
+    state.loading = true;
+  },
+  searchUserSuccess: (state, action) => {
+    state.loading = false;
+    state.users = action.payload;
+    state.done = true;
+  },
+  searchUserFailure: (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
+    state.done = true;
+  },
   clearDone: (state) => {
     state.done = null;
   },
