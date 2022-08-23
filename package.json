@@ -1,0 +1,23 @@
+{
+  "name": "reachme",
+  "version": "1.0.0",
+  "description": "In Progress",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon backend/server.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false && npm install --prefix frontend && npm run build --prefix frontend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rendisagala/ReachMe.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rendisagala/ReachMe/issues"
+  },
+  "homepage": "https://github.com/rendisagala/ReachMe#readme",
+  "dependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
