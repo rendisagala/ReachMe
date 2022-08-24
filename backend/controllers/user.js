@@ -143,7 +143,6 @@ exports.userByName = [
       const users = await User.find({
         name: { $regex: req.query.name, $options: "i" },
       });
-
       res.status(200).json({
         success: true,
         users,
