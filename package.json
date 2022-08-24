@@ -2,22 +2,24 @@
   "name": "reachme",
   "version": "1.0.0",
   "description": "In Progress",
-  "main": "server.js",
+  "main": "index.js",
+  "engines": {
+    "node": "16.13.2"
+  },
   "scripts": {
-    "start": "nodemon backend/server.js",
+    "start-prod": "node server",
+    "start": "cd backend && node server",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false && npm install --prefix frontend && npm run build --prefix frontend"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rendisagala/ReachMe.git"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/rendisagala/ReachMe/issues"
   },
-  "homepage": "https://github.com/rendisagala/ReachMe#readme",
-  "dependencies": {
-    "nodemon": "^2.0.19"
-  }
+  "homepage": "https://github.com/rendisagala/ReachMe#readme"
 }
