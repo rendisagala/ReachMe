@@ -23,30 +23,16 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-// const corsOptions = {
-//   origin: [
-// "http://localhost:3000",
-// "http://127.0.0.1",
-// "http://104.142.122.231",
-//   ],
-//   credentials: true,
-//   exposedHeaders: ["set-cookie"],
-// };
-whitelist = [
-  "http://localhost:3000",
-  "http://127.0.0.1",
-  "http://104.142.122.231",
-  "https://reachmeapps.herokuapp.com",
-];
 const corsOptions = {
+  //To allow requests from client
+  origin: [
+    "http://localhost:3000",
+    "http://127.0.0.1",
+    "http://104.142.122.231",
+  ],
   credentials: true,
-  origin: (origin, callback) => {
-    if (whitelist.includes(origin)) return callback(null, true);
-
-    callback(new Error("Not allowed by CORS"));
-  },
+  exposedHeaders: ["set-cookie"],
 };
-
 app.use(cors(corsOptions));
 
 app.use("/api/v1", post);
