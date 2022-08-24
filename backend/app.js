@@ -24,13 +24,12 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 const corsOptions = {
-  //To allow requests from client
-  origin: [
-    "http://localhost:3000",
-    "http://127.0.0.1",
-    "http://104.142.122.231",
-    "https://reachmeapps.herokuapp.com",
-  ],
+  // origin: [
+  //   "http://localhost:3000",
+  //   "http://127.0.0.1",
+  //   "http://104.142.122.231",
+  //   "https://reachmeapps.herokuapp.com",
+  // ],
   credentials: true,
   exposedHeaders: ["set-cookie"],
 };
