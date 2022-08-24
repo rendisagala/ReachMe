@@ -36,7 +36,7 @@ whitelist = [
   "http://localhost:3000",
   "http://127.0.0.1",
   "http://104.142.122.231",
-  "https://reachmeapps.herokuapp.com/",
+  "https://reachmeapps.herokuapp.com",
 ];
 const corsOptions = {
   credentials: true,
