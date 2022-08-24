@@ -41,7 +41,7 @@ export default function PeopleList() {
           {users ? (
             <>
               {users?.map((data, index) => {
-                if (data._id.toString() !== user._id.toString())
+                if (data._id?.toString() !== user._id.toString())
                   return (
                     <div
                       className="d-flex flex-row justify-content-between align-items-center p-2 border-bottom mb-2 row-cols-3"
