@@ -23,25 +23,30 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+// const corsOptions = {
+//   origin: [
+// "http://localhost:3000",
+// "http://127.0.0.1",
+// "http://104.142.122.231",
+//   ],
+//   credentials: true,
+//   exposedHeaders: ["set-cookie"],
+// };
+whitelist = [
+  "http://localhost:3000",
+  "http://127.0.0.1",
+  "http://104.142.122.231",
+];
 const corsOptions = {
-  //To allow requests from client
-  origin: [
-    "http://localhost:3000",
-    "http://127.0.0.1",
-    "http://104.142.122.231",
-  ],
   credentials: true,
-  exposedHeaders: ["set-cookie"],
+  origin: (origin, callback) => {
+    if (whitelist.includes(origin)) return callback(null, true);
+
+    callback(new Error("Not allowed by CORS"));
+  },
 };
+
 app.use(cors(corsOptions));
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Methods", "DELETE, PUT, GET, POST");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
 
 app.use("/api/v1", post);
 app.use("/api/v1", user);
