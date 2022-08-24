@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/rendisagala/ReachMe/issues"
   },
-  "homepage": "https://github.com/rendisagala/ReachMe#readme"
+  "homepage": "https://github.com/rendisagala/ReachMe#readme",
+  "dependencies": {
+    "dotenv": "^16.0.1"
+  }
 }
