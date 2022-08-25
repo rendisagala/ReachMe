@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-export const proxy = "http://localhost:5000/api/v1";
-// export const proxy = "https://reachmeapps.herokuapp.com/api/v1";
+// export const proxy = "http://localhost:5000/api/v1";
+export const proxy = "https://reachmeapps.herokuapp.com/api/v1";
 
 export const ErrorNotification = {
   position: "top-left",
