@@ -24,3 +24,12 @@
   font-family: "billabong", sans-serif;
   text-decoration: none;
 }
+
+.text-center a {
+  color: blue !important;
+  text-decoration: overline !important;
+}
+
+.text-center a:hover {
+  transform: scale(1.1) !important;
+}
