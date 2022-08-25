@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addPost,
-  getAllPosts,
   addLikes,
   addComment,
   deletePost,
@@ -60,7 +59,8 @@ function Account() {
     Reader.readAsDataURL(file);
     Reader.onload = () => {
       if (Reader.readyState === 2) {
-        !img || editedImg ? setImg(Reader.result) : setEditedImg(Reader.result);
+        // !img || editedImg ? setImg(Reader.result) : setEditedImg(Reader.result);
+        toggleEdit ? setEditedImg(Reader.result) : setImg(Reader.result);
       }
     };
   };
@@ -263,12 +263,6 @@ function Account() {
                 />
               </>
             )}
-
-            {/* <center>
-              <p>
-                <button className="btn btn-dark">Follow</button>{" "}
-              </p>
-            </center> */}
           </div>
         </div>
 
@@ -331,10 +325,13 @@ function Account() {
           </>
         )}
       </div>
-      {/*  */}
       <div className="row d-flex justify-content-center ">
         <form
-          className="d-flex flex-row justify-content-between align-items-center p-2 bg-white border card border border-dark col-8"
+          className={
+            toggleEdit
+              ? "d-flex flex-row justify-content-between align-items-center p-2 bg-white border card border border-dark col-8 d-none"
+              : "d-flex flex-row justify-content-between align-items-center p-2 bg-white border card border border-dark col-8"
+          }
           onSubmit={(e) => {
             e.preventDefault();
             dispatch(addPost(caption, img));
@@ -501,7 +498,6 @@ function Account() {
                         </span>
                       </div>
                     </div>{" "}
-                    {/*  */}{" "}
                     <div className="visually-hidden" id={`comment${data._id}`}>
                       <form
                         className="d-flex flex-row justify-content-between align-items-cente border"
