@@ -33,6 +33,11 @@ tr {
 .table {
   margin-top: 2vw;
 }
+.feed-image img {
+  width: 100%;
+  height: 70%;
+  height: auto;
+}
 .desc {
   position: relative;
   color: #000000;

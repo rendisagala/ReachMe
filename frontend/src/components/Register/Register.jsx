@@ -152,7 +152,7 @@ export default function Register() {
                           </div>
                         </div>
                       ) : (
-                        <>tes</>
+                        <> </>
                       )}
                       <div className="form-floating mb-3">
                         <input
