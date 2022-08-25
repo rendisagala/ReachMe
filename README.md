@@ -11,8 +11,7 @@
 <br />
 <div align="center">
   <a href="https://reachmeapps.herokuapp.com">
-    <img src="https://i.ibb.co/Vmft67P/Screenshot-2022-08-25-115250.png" alt="Logo" width="80" height="80">
-    <img src="https://i.ibb.co/k2fd4LQ/Screenshot-2022-08-25-115509.png" alt="Logo" width="80" height="80">
+    <img src="https://img.icons8.com/carbon-copy/100/228BE6/connected.png" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">ReachMe App</h3>
@@ -59,6 +58,7 @@ ReachMe is a social media app that connects people from any place in one app. Us
 ## About The Project
 
 ![Product Name Screen Shot][product-screenshot]
+![Product Name Screen Shot][product-screenshot2]
 
 TaskHelper is a website that will help you manage list of the tasks that you have to do, or things that you want to do.
 
@@ -161,4 +161,5 @@ Project Link: [https://github.com/rendisagala/Reachme](https://github.com/rendis
 [license-url]: https://github.com/rendisagala/Reachme/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/rendi-anjuma-sagala-a3b2421b6/
-[product-screenshot]: public/img/TaskHelper%20-%20Login.png
+[product-screenshot]: https://i.ibb.co/Vmft67P/Screenshot-2022-08-25-115250.png
+[product-screenshot2]: https://i.ibb.co/k2fd4LQ/Screenshot-2022-08-25-115509.png
