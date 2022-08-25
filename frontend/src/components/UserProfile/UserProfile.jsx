@@ -18,7 +18,6 @@ import { toast } from "react-toastify";
 import { loadUser, getUserProfile, followUser } from "../../Actions/User";
 
 export default function UserProfile() {
-  const [img, setImg] = useState();
   const [comment, setComment] = useState("");
 
   const dispatch = useDispatch();
@@ -158,7 +157,7 @@ export default function UserProfile() {
       </div>
       {/*  */}
       <div className="row d-flex justify-content-center ">
-        {posts ? (
+        {posts?.length > 0 ? (
           <>
             {posts
               ?.slice(0)
