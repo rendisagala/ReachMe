@@ -113,7 +113,10 @@ export default function Login() {
                         <div className="text-center">
                           <div className="small" href="#">
                             Doesn't have an account?{" "}
-                            <Link to="/register"> Sign Up </Link>
+                            <Link to="/register" className=" link-primary">
+                              {" "}
+                              Sign Up{" "}
+                            </Link>
                           </div>
                         </div>
                       </div>

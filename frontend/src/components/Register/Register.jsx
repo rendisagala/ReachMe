@@ -240,14 +240,19 @@ export default function Register() {
                           >
                             <i className="fa fa-check-circle me-1"></i>
                             <strong> Success! </strong>Please go back to{" "}
-                            <Link to="/">login page</Link> with your registered
-                            account.
+                            <Link to="/" className=" link-primary">
+                              login page
+                            </Link>{" "}
+                            with your registered account.
                           </div>
                         ) : (
                           <div className="text-center">
                             <div className="small" href="#">
                               Already have an account?
-                              <Link to="/"> Sign In </Link>
+                              <Link to="/" className=" link-primary">
+                                {" "}
+                                Sign In{" "}
+                              </Link>
                             </div>
                           </div>
                         )}
