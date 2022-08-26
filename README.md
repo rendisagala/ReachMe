@@ -60,8 +60,6 @@ ReachMe is a social media app that connects people from any place in one app. Us
 ![Product Name Screen Shot][product-screenshot]
 ![Product Name Screen Shot][product-screenshot2]
 
-TaskHelper is a website that will help you manage list of the tasks that you have to do, or things that you want to do.
-
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Built With
