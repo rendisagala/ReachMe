@@ -14,6 +14,11 @@ exports.register = [
           success: false,
           message: "Please enter valid email",
         });
+      if (!img)
+        return res.status(400).json({
+          success: false,
+          message: "Image Cannot Be Empty",
+        });
       let user = await User.findOne({ email });
       if (!reType || reType !== password)
         return res

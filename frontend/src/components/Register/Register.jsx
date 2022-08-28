@@ -223,7 +223,6 @@ export default function Register() {
                           disabled={
                             !reType ||
                             reType !== password ||
-                            !img ||
                             password.length < 8
                               ? true
                               : false
