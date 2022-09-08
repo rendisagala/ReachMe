@@ -165,7 +165,7 @@ export default function UserProfile() {
               .map((data, index) => {
                 return (
                   <div
-                    className="bg-white border mt-2 card border-dark px-lg-5 col-8"
+                    className="bg-white border mt-2 card border-dark px-lg-5 col-10"
                     key={index}
                   >
                     <div>
@@ -330,7 +330,7 @@ export default function UserProfile() {
           </>
         ) : (
           <>
-            <h1 className="lead p-5 col-8 display-3">
+            <h1 className="lead p-5 col-10 display-3">
               This User Haven't Posted Anything Yet.
             </h1>
 
