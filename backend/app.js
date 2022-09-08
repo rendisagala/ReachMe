@@ -29,6 +29,7 @@ const corsOptions = {
     "http://127.0.0.1",
     "http://104.142.122.231",
     "https://reachmeapps.herokuapp.com",
+    "http://reachmeapps.herokuapp.com",
     "reachmeapps.herokuapp.com",
     "https://reachmeapps.herokuapp.com/api/v1",
   ],
