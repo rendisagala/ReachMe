@@ -61,7 +61,7 @@ function LikedFeed() {
         {posts?.length > 0 ? (
           <>
             {" "}
-            <h1 className="lead p-5 col-8 display-3">
+            <h1 className="lead p-5 col-10 display-3 mx-auto">
               Post You have Liked.
             </h1>{" "}
             {posts
@@ -70,7 +70,7 @@ function LikedFeed() {
               .map((data, index) => {
                 return (
                   <div
-                    className="bg-white border mt-2 card border-dark px-lg-5 col-8"
+                    className="bg-white border mt-2 card border-dark px-lg-5 col-10"
                     key={index}
                   >
                     <div>

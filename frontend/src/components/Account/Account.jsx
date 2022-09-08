@@ -329,8 +329,8 @@ function Account() {
         <form
           className={
             toggleEdit
-              ? "d-flex flex-row justify-content-between align-items-center p-2 bg-white border card border border-dark col-8 d-none"
-              : "d-flex flex-row justify-content-between align-items-center p-2 bg-white border card border border-dark col-8"
+              ? "d-flex flex-row justify-content-between align-items-center p-2 bg-white border card border border-dark col-10 d-none"
+              : "d-flex flex-row justify-content-between align-items-center p-2 bg-white border card border border-dark col-10"
           }
           onSubmit={(e) => {
             e.preventDefault();
@@ -360,7 +360,7 @@ function Account() {
             <i className="fa fa-long-arrow-up text-black-50"></i>
           </button>{" "}
         </form>
-        <div className="feed-image px-3 col-8">
+        <div className="feed-image px-3 col-10">
           {img && (
             <button
               className="btn btn-danger btn-sm rounded-0"
@@ -385,7 +385,7 @@ function Account() {
               .map((data, index) => {
                 return (
                   <div
-                    className="bg-white border mt-2 card border-dark px-lg-5 col-8"
+                    className="bg-white border mt-2 card border-dark px-lg-5 col-10"
                     key={index}
                   >
                     <div>

@@ -35,7 +35,7 @@ export default function PeopleList() {
 
   return (
     <>
-      <nav className="sidebar col-2 w-25">
+      <nav className="sidebar col-2 w-auto justify-content-center d-flex mx-auto">
         <div className="pt-5">
           <h5>Check Who is here</h5>{" "}
           {users ? (

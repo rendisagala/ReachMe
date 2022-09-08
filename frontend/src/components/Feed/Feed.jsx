@@ -96,7 +96,7 @@ function Feed() {
       <div className="row d-flex ">
         <div className="container d-md-flex align-items-stretch p-5 col-12">
           <div className="container mt-4 mb-5">
-            <div className="d-flex justify-content-center row col-12">
+            <div className="d-flex justify-content-center row col-12 w-auto">
               <div className="col-md-12">
                 <div className="feed p-2">
                   <form
