@@ -36,7 +36,6 @@ const corsOptions = {
   //   "reachme.vercel.app",
   //   "https://reachme.vercel.app/api/v1",
   // ],
-  optionSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
 
