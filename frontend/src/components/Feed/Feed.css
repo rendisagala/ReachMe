@@ -22,7 +22,7 @@ a {
 .feed-image img {
   display: block;
   max-height: 500px;
-  width: auto;
+  min-width: 100%;
   height: auto;
 }
 
