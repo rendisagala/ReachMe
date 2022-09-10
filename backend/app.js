@@ -6,7 +6,8 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const user = require("./routes/user");
 const post = require("./routes/post");
-const path = require("path");
+const error = require("./routes/error");
+// const path = require("path");
 
 const app = express();
 
@@ -40,6 +41,8 @@ app.use(cors(corsOptions));
 
 app.use("/api/v1", post);
 app.use("/api/v1", user);
+app.use("/api/v1", error);
+app.use("/", error);
 
 // app.use(express.static(path.join(__dirname, "../frontend/build")));
 
