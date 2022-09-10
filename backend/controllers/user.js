@@ -118,6 +118,8 @@ exports.logout = [
         .cookie("token", null, {
           expires: new Date(Date.now()),
           httpOnly: true,
+          sameSite: "none",
+          secure: true,
         })
         .json({ success: true, message: "User Logged Out" });
     } catch (error) {
