@@ -25,16 +25,17 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 const corsOptions = {
-  origin: [
-    "http://localhost:3000",
-    "http://127.0.0.1",
-    "http://104.142.122.231",
-    "https://reachme.vercel.app",
-    "http://reachme.vercel.app",
-    "reachme.vercel.app",
-    "https://reachme.vercel.app/api/v1",
-  ],
   credentials: true,
+  origin: true,
+  // origin: [
+  //   "http://localhost:3000",
+  //   "http://127.0.0.1",
+  //   "http://104.142.122.231",
+  //   "https://reachme.vercel.app",
+  //   "http://reachme.vercel.app",
+  //   "reachme.vercel.app",
+  //   "https://reachme.vercel.app/api/v1",
+  // ],
   exposedHeaders: ["set-cookie"],
 };
 app.use(cors(corsOptions));
