@@ -10,7 +10,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://reachmeapps.herokuapp.com">
+  <a href="https://reachme.vercel.app">
     <img src="https://img.icons8.com/carbon-copy/100/228BE6/connected.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -21,7 +21,7 @@ ReachMe is a social media app that connects people from any place in one app. Us
     <a href="https://github.com/rendisagala/Reachme"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://reachmeapps.herokuapp.com">View Demo</a>
+    <a href="https://reachme.vercel.app">View Demo</a>
     ·
     <a href="https://github.com/rendisagala/Reachme/issues">Report Bug</a>
     ·
