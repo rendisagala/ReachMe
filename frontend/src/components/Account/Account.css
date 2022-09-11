@@ -34,8 +34,9 @@ tr {
   margin-top: 2vw;
 }
 .feed-image img {
-  width: 100%;
-  height: 70%;
+  display: block;
+  max-height: 700px;
+  min-width: 100%;
   height: auto;
 }
 .desc {
