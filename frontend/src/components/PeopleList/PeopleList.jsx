@@ -71,7 +71,7 @@ export default function PeopleList() {
                         <button
                           type="button"
                           className={
-                            data.followers.includes(user._id)
+                            data.followers.includes(user?._id)
                               ? "btn btn-dark btn-outline-primary text-light"
                               : "btn  btn-primary btn-outline-dark text-light"
                           }
@@ -80,7 +80,7 @@ export default function PeopleList() {
                             dispatch(followUser(data._id));
                           }}
                         >
-                          {data.followers.includes(user._id) ? (
+                          {data.followers.includes(user?._id) ? (
                             <>Followed</>
                           ) : (
                             <>Follow</>
