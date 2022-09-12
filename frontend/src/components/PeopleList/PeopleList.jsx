@@ -58,7 +58,10 @@ export default function PeopleList() {
                         <div className="d-flex flex-column flex-wrap ml-2">
                           {" "}
                           <Link to={`/user/${data._id}`}>
-                            <span className="font-weight-bold  ">
+                            <span
+                              className="font-weight-bold  peopleName"
+                              title={data.name}
+                            >
                               {data.name}
                             </span>{" "}
                           </Link>

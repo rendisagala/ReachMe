@@ -23,11 +23,21 @@ body {
   width: 40px;
   height: 40px;
 }
+.peopleName {
+  display: inline-block;
+  max-width: 100px;
+  overflow: hidden;
+}
 
 /* Smartphones (portrait and landscape) ----------- */
 @media only screen and (min-width: 320px) and (max-width: 480px) {
   .sidebar {
     max-height: 700px !important;
     overflow-y: scroll;
+  }
+  .peopleName {
+    display: inline-block;
+    max-width: 70px;
+    overflow: hidden;
   }
 }
