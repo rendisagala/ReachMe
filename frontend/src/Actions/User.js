@@ -56,6 +56,23 @@ export const logoutUser = () => async (dispatch) => {
   } catch (error) {}
 };
 
+export const deleteUser = () => async (dispatch) => {
+  try {
+    dispatch({ type: "deleteUserRequest" });
+    const data = await axios
+      .delete(`${proxy}/delete`, {
+        withCredentials: true,
+      })
+      .catch((error) =>
+        dispatch({
+          type: "deleteUserFailure",
+          payload: error.response.data.message,
+        })
+      );
+    dispatch({ type: "deleteUserSuccess", payload: data.data.message });
+  } catch (error) {}
+};
+
 export const loadUser = () => async (dispatch) => {
   try {
     dispatch({ type: "LoadUserRequest" });

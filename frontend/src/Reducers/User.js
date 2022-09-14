@@ -136,6 +136,19 @@ export const myUserReducer = createReducer(initialState, {
     state.error = action.payload;
     state.done = true;
   },
+  deleteUserRequest: (state) => {
+    state.loading = true;
+  },
+  deleteUserSuccess: (state, action) => {
+    state.loading = false;
+    state.message = action.payload;
+    state.done = true;
+  },
+  deleteUserFailure: (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
+    state.done = true;
+  },
   clearDone: (state) => {
     state.done = null;
   },

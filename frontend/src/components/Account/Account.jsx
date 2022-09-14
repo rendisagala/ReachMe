@@ -16,7 +16,13 @@ import {
   InfoNotification,
 } from "../../Utils/Utils";
 import { toast } from "react-toastify";
-import { loadUser, updatePassword, updateUser } from "../../Actions/User";
+import {
+  loadUser,
+  updatePassword,
+  updateUser,
+  deleteUser,
+} from "../../Actions/User";
+import { Button, Modal } from "react-bootstrap";
 
 function Account() {
   const [toggleEdit, setToggleEdit] = useState(false);
@@ -30,6 +36,8 @@ function Account() {
   const [editedImg, setEditedImg] = useState();
   const [img, setImg] = useState();
   const [comment, setComment] = useState("");
+  const [toggleDelete, setToggleDelete] = useState(false);
+  const [confirmEmail, setConfirmEmail] = useState("");
 
   const dispatch = useDispatch();
 
@@ -154,7 +162,7 @@ function Account() {
                       style={{ display: "none" }}
                       onChange={onImageChange}
                     />
-                  </label>
+                  </label>{" "}
                 </>
               ) : (
                 <img
@@ -162,7 +170,7 @@ function Account() {
                   src={user.img}
                 />
               )}
-            </center>
+            </center>{" "}
           </div>
           <div className="col-sm-6 details">
             <center>
@@ -220,7 +228,7 @@ function Account() {
                   }
                 >
                   Update Password
-                </button>
+                </button>{" "}
                 {togglePassword && (
                   <button
                     title="Cancel"
@@ -235,7 +243,7 @@ function Account() {
                     <i className="fa fa-ban text-black-100 text-danger"></i>
                   </button>
                 )}
-              </p>
+              </p>{" "}
             </center>
             {togglePassword && (
               <>
@@ -265,7 +273,6 @@ function Account() {
             )}
           </div>
         </div>
-
         <table className="table">
           <tbody>
             <tr>
@@ -290,14 +297,16 @@ function Account() {
             </tr>
           </tbody>
         </table>
-
         {!toggleEdit ? (
-          <button
-            className="waves-effect waves-light btn btn-dark edit "
-            onClick={() => setToggleEdit((current) => !current)}
-          >
-            Edit Profile
-          </button>
+          <>
+            {" "}
+            <button
+              className="waves-effect waves-light btn btn-dark edit "
+              onClick={() => setToggleEdit((current) => !current)}
+            >
+              Edit Profile
+            </button>
+          </>
         ) : (
           <>
             <button
@@ -321,9 +330,18 @@ function Account() {
               }}
             >
               <i className="fa fa-ban text-black-100 text-danger"></i>
+            </button>{" "}
+            <button
+              className="waves-effect waves-light btn btn-dark edit mt-3"
+              onClick={() => {
+                setToggleDelete((current) => !current);
+                // dispatch(deleteUser());
+              }}
+            >
+              Delete Profile
             </button>
           </>
-        )}
+        )}{" "}
       </div>
       <div className="row d-flex justify-content-center ">
         <form
@@ -548,7 +566,40 @@ function Account() {
         ) : (
           <Loading />
         )}
-      </div>
+      </div>{" "}
+      {/* modal */}
+      <Modal
+        show={toggleDelete}
+        onHide={() => {
+          setToggleDelete((current) => !current);
+        }}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Account</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p className="lead fw-bold">Please Type Your Email To Confirm</p>
+        </Modal.Body>
+        <input
+          type="text"
+          name="email"
+          placeholder="Email"
+          className="form-control  w-50 mx-auto"
+          onChange={(e) => setConfirmEmail(e.target.value)}
+        />{" "}
+        <Modal.Footer>
+          <Button
+            variant="danger"
+            onClick={() => {
+              confirmEmail === user.email
+                ? dispatch(deleteUser())
+                : toast.error("Incorrect Email", ErrorNotification);
+            }}
+          >
+            DELETE
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }
