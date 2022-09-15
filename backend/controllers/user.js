@@ -303,9 +303,12 @@ exports.deleteUser = [
       const posts = user.posts;
       const followers = user.followers;
       const followings = user.following;
+
+      await user.remove();
+
       for (let i = 0; i < posts.length; i++) {
-        const post = await Post.findById(posts[i]);
-        await post.remove;
+        const post = await Post.findById(posts[i]._id);
+        await post.remove();
       }
       for (let i = 0; i < followers.length; i++) {
         const follower = await User.findById(followers[i]);
@@ -320,9 +323,37 @@ exports.deleteUser = [
         await following.save();
       }
 
-      await user.remove();
-      res.clearCookie("token");
-      return res.status(200).json({ success: true, message: "User Deleted" });
+      const allPosts = await Post.find();
+
+      for (let i = 0; i < allPosts.length; i++) {
+        const post = await Post.findById(allPosts[i]._id);
+        for (let j = 0; j < post.comments.length; j++) {
+          if (post.comments[j].user.toString() === user._id.toString()) {
+            post.comments.splice(j, 1);
+          }
+        }
+        await post.save();
+      }
+
+      for (let i = 0; i < allPosts.length; i++) {
+        const post = await Post.findById(allPosts[i]._id);
+        for (let j = 0; j < post.likes.length; j++) {
+          if (post.likes[j] === user._id) {
+            post.likes.splice(j, 1);
+          }
+        }
+        await post.save();
+      }
+
+      return res
+        .status(200)
+        .cookie("token", null, {
+          expires: new Date(Date.now()),
+          httpOnly: true,
+          sameSite: "none",
+          secure: true,
+        })
+        .json({ success: true, message: "User Deleted" });
     } catch (error) {
       return res.status(500).json({ success: false, message: error.message });
     }
