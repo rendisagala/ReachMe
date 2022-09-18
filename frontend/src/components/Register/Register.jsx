@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Register.css";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../Actions/User";
 import { ErrorNotification, SuccessNotification } from "../../Utils/Utils";
@@ -62,6 +62,8 @@ export default function Register() {
   }, [dispatch, userError, userDone]);
 
   const toggleImgForm = () => (imgForm ? setImgForm(false) : setImgForm(true));
+
+  if (userDone) return <Navigate to="/" />;
 
   return (
     <>
