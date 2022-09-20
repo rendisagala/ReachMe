@@ -206,7 +206,7 @@ function Feed() {
                                       >
                                         Report
                                       </button>
-                                      {data.author._id === user._id && (
+                                      {data?.author._id === user?._id && (
                                         <button
                                           className="btn   btn-danger row time col-12"
                                           onClick={() =>
