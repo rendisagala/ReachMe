@@ -80,7 +80,7 @@ export default function UserProfile() {
     allUserMessage,
   ]);
 
-  if (params.id === loggedInUser._id) return <Navigate to="/profile" />;
+  if (params?.id === loggedInUser?._id) return <Navigate to="/profile" />;
 
   return (
     <>
