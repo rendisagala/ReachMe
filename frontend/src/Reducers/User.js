@@ -23,13 +23,13 @@ export const userReducer = createReducer(initialState, {
     state.loading = false;
     state.message = action.payload;
     state.done = true;
-    // state.isAuthenticated = true;
+    state.isAuthenticated = true;
   },
   RegisterFailure: (state, action) => {
     state.loading = false;
     state.error = action.payload;
     state.done = false;
-    // state.isAuthenticated = false;
+    state.isAuthenticated = false;
   },
 
   LoadUserRequest: (state) => {

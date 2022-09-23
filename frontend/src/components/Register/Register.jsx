@@ -47,10 +47,6 @@ export default function Register() {
       dispatch({ type: "clearErrors" });
     }
     if (userDone) {
-      toast.success(
-        "Success! Please go to login page with your registered account",
-        SuccessNotification
-      );
       dispatch({ type: "clearDone" });
       setName("");
       setEmail("");
@@ -233,30 +229,15 @@ export default function Register() {
                           Sign Up
                         </button>
 
-                        {userDone ? (
-                          <div
-                            className="alert alert-success  text-center"
-                            role="alert"
-                            data-mdb-color="success"
-                          >
-                            <i className="fa fa-check-circle me-1"></i>
-                            <strong> Success! </strong>Please go back to{" "}
+                        <div className="text-center">
+                          <div className="small" href="#">
+                            Already have an account?
                             <Link to="/" className=" link-primary">
-                              login page
-                            </Link>{" "}
-                            with your registered account.
+                              {" "}
+                              Sign In{" "}
+                            </Link>
                           </div>
-                        ) : (
-                          <div className="text-center">
-                            <div className="small" href="#">
-                              Already have an account?
-                              <Link to="/" className=" link-primary">
-                                {" "}
-                                Sign In{" "}
-                              </Link>
-                            </div>
-                          </div>
-                        )}
+                        </div>
                       </div>
                     </form>
                   </div>

@@ -39,9 +39,20 @@ exports.register = [
         password,
         img: imageCloud.secure_url,
       });
+
+      const token = await user.generateToken();
+
+      const options = {
+        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+      };
+
       return res
         .status(201)
-        .json({ success: true, message: `User Registered` });
+        .cookie("token", token, options)
+        .json({ success: true, message: `User Registered (${email})` });
     } catch (error) {
       return res.status(500).json({
         message: error.message,
