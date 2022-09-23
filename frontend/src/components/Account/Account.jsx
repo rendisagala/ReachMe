@@ -150,7 +150,7 @@ function Account() {
                   {" "}
                   <img
                     className="circle responsive-img rounded rounded-circle border border-dark"
-                    src={!editedImg ? user.img : editedImg}
+                    src={!editedImg ? user?.img : editedImg}
                   />
                   <label htmlFor="upload" className="btn">
                     <i className="fa fa-image text-black-50"></i>
@@ -167,7 +167,7 @@ function Account() {
               ) : (
                 <img
                   className="circle responsive-img rounded rounded-circle  border border-dark"
-                  src={user.img}
+                  src={user?.img}
                 />
               )}
             </center>{" "}
@@ -178,7 +178,7 @@ function Account() {
                 {toggleEdit ? (
                   <>
                     {" "}
-                    <b>{!name ? user.name : name}</b>
+                    <b>{!name ? user?.name : name}</b>
                     <input
                       type="text"
                       name="name"
@@ -188,14 +188,14 @@ function Account() {
                     />
                   </>
                 ) : (
-                  <b>{user.name}</b>
+                  <b>{user?.name}</b>
                 )}
               </p>
             </center>
             <center>
               {toggleEdit ? (
                 <>
-                  <i>{!email ? user.email : email}</i>
+                  <i>{!email ? user?.email : email}</i>
                   <input
                     type="email"
                     name="name"
@@ -205,7 +205,7 @@ function Account() {
                   />
                 </>
               ) : (
-                <i className="time">{user.email}</i>
+                <i className="time">{user?.email}</i>
               )}
             </center>
 
@@ -278,19 +278,19 @@ function Account() {
             <tr>
               <td>
                 <p>
-                  <b>{user.posts.length}</b>
+                  <b>{user?.posts.length}</b>
                 </p>
                 <p>Posts</p>
               </td>
               <td>
                 <p>
-                  <b>{user.followers.length}</b>
+                  <b>{user?.followers.length}</b>
                 </p>
                 <p>Followers</p>
               </td>
               <td>
                 <p>
-                  <b>{user.following.length}</b>
+                  <b>{user?.following.length}</b>
                 </p>
                 <p>Following</p>
               </td>
@@ -454,7 +454,7 @@ function Account() {
                             >
                               Report
                             </button>
-                            {data.author._id === user._id && (
+                            {data.author._id === user?._id && (
                               <button
                                 className="btn   btn-danger row time col-12"
                                 onClick={() => dispatch(deletePost(data._id))}
@@ -490,7 +490,7 @@ function Account() {
                         >
                           <i
                             className={
-                              data.likes.some((like) => like._id === user._id)
+                              data.likes.some((like) => like._id === user?._id)
                                 ? "fa fa-heart p-0 m-0 likes text-danger"
                                 : "fa fa-heart p-0 m-0 likes"
                             }
@@ -544,14 +544,14 @@ function Account() {
                             <div className="d-flex justify-content-between">
                               <div className="d-flex flex-row align-items-center">
                                 <img
-                                  src={res.user.img}
+                                  src={res.user?.img}
                                   alt="avatar"
                                   width="25"
                                   height="25"
                                   className="rounded rounded-circle"
                                 />
                                 <p className="small mb-0 ms-2">
-                                  {res.user.name}
+                                  {res.user?.name}
                                 </p>
                               </div>
                             </div>
@@ -591,7 +591,7 @@ function Account() {
           <Button
             variant="danger"
             onClick={() => {
-              confirmEmail === user.email
+              confirmEmail === user?.email
                 ? dispatch(deleteUser())
                 : toast.error("Incorrect Email", ErrorNotification);
             }}
