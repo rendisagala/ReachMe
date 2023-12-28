@@ -9,6 +9,7 @@ exports.register = [
   async (req, res) => {
     try {
       const { name, email, password, img, reType } = req.body;
+
       if (!emailFilter.test(email))
         return res.status(400).json({
           success: false,
@@ -132,6 +133,7 @@ exports.logout = [
           sameSite: "none",
           secure: true,
         })
+
         .json({ success: true, message: "User Logged Out" });
     } catch (error) {
       return res.status(500).json({
@@ -163,12 +165,12 @@ exports.userByName = [
       const users = await User.find({
         name: { $regex: req.query.name, $options: "i" },
       });
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         users,
       });
     } catch (error) {
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         message: error.message,
       });
@@ -191,7 +193,7 @@ exports.allUser = [
   async (req, res) => {
     try {
       const users = await User.find();
-      res.status(200).json({ success: true, users });
+      return res.status(200).json({ success: true, users });
     } catch (error) {
       return res.status(500).json({ success: false, message: error.message });
     }
