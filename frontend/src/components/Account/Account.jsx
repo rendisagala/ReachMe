@@ -67,6 +67,7 @@ function Account() {
     Reader.readAsDataURL(file);
     Reader.onload = () => {
       if (Reader.readyState === 2) {
+        console.log("hello world");
         // !img || editedImg ? setImg(Reader.result) : setEditedImg(Reader.result);
         toggleEdit ? setEditedImg(Reader.result) : setImg(Reader.result);
       }
