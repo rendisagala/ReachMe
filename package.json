@@ -4,7 +4,7 @@
   "description": "In Progress",
   "main": "backend/server.js",
   "engines": {
-    "node": "16.13.2"
+    "node": "20.18.0"
   },
   "scripts": {
     "start": "nodemon backend/server.js",

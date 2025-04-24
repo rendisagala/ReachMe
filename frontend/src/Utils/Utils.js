@@ -1,5 +1,5 @@
 // export const proxy = "http://localhost:5000/api/v1";
-export const proxy = "https://reachme.cyclic.app/api/v1";
+export const proxy = "https://grizzled-adaptable-secure.glitch.me/api/v1";
 
 export const ErrorNotification = {
   position: "top-left",
